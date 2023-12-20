@@ -86,7 +86,8 @@ class inscribing_square_api(APIView):
         w1,w2 = generate_coordinates(start=0,limit=length,step=side)
         df = generate_ordered_pairs(w1,w2)
         count = get_count(df)
-
+        # file_path = 'square.xlsx'
+        # excel_file = df.to_excel(file_path, index=False)
         arr = df.to_numpy()
         final_list = arr.tolist()
         # print(df)
