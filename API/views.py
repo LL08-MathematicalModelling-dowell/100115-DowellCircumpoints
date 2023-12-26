@@ -1,95 +1,27 @@
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from django.http import JsonResponse
+# from django.shortcuts import render
+# from django.http import HttpResponse
+# from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .inscribe_square import generate_coordinates, generate_ordered_pairs, get_count
 import json
-import ctypes
-import glob
 
-def inscribingFunction(inscribingInput):
-    radius = inscribingInput['radius']
-    length = inscribingInput['length']
-    width = inscribingInput['width']
-    libfile = glob.glob('/home/100071/118.Geocoordinates.Dowell/Inscribing_API/API//build/*/algorithm*.so')[0]
-    mylib = ctypes.CDLL(libfile)
-    mylib.inscribe.restype = ctypes.c_int
-    mylib.inscribe.argtypes = [ctypes.c_float, ctypes.c_int, ctypes.c_int]
-    numberOfCircles = mylib.inscribe(radius, length, width)
-    inscribingOutput = {
-        'numberOfCircles':numberOfCircles,
-    }
-    return inscribingOutput
-
-def index(request):
-    return render(request, 'index.html')
-
-@csrf_exempt
-def functionInputs(request):
-    if request.method == 'POST':
-        radius=float(request.POST['radius'])
-        length=int(request.POST['length'])
-        width=int(request.POST['width'])
-        inscribingInput = {
-            'radius':radius,
-            'length':length,
-            'width':width,
-        }
-        inscribingOutput = inscribingFunction(inscribingInput)
-        return JsonResponse(inscribingOutput)
-    else:
-        return HttpResponse("Method Not Allowed")
-
-@csrf_exempt
-def inscribingAPI(request):
-    if (request.method=="POST"):
-        inscribingInput=json.loads(request.body)
-        inscribingOutput=inscribingFunction(inscribingInput)
-        return JsonResponse (inscribingOutput)
-    else:
-        return HttpResponse("Method Not Allowed")
-
-@csrf_exempt
-def publicAPI(request):
-    if (request.method=="POST"):
-        inscribingInput=json.loads(request.body)
-        if "api_key" in inscribingInput:
-            api_key = inscribingInput.get('api_key')
-            data = processApikey(api_key)
-            api_resp = json.loads(data)
-            if api_resp['success'] is True:
-                credit_count = api_resp['total_credits']
-                if credit_count>=0:
-                    inscribingOutput=inscribingFunction(inscribingInput)
-                    return JsonResponse(inscribingOutput)
-                else:
-                    JsonResponse({"success":api_resp['success'], "message":api_resp['message'], "total credits":api_resp['total_credits']},status=status.HTTP_400_BAD_REQUEST)
-            elif api_resp['success'] is False:
-                return JsonResponse({"sucesss":False, "message":api_resp['message'], "total credits":api_resp['total_credits']},status=status.HTTP_200_OK)
-
-        else:
-            return JsonResponse({"success":False, "msg":"Provide a valid API key"},status=status.HTTP_403_FORBIDDEN)
-
-    else:
-        return HttpResponse("Method Not Allowed")
-
+#Inscribing Sqaures API
 class inscribing_square_api(APIView):
     def post(self,request):
         try:
+            response = json.loads(request.body)
+            length = int(response['length'])
+            width = int(response['width'])
+            side = int(response['side_length'])
+
             if 'length' not in response or 'width' not in response or 'side_length' not in response:
                 raise ValueError("Invalid input. Please provide 'length', 'width', and 'side_length'.")
-                
-                response = json.loads(request.body)
-                length = int(response['length'])
-                width = int(response['width'])
-                side = int(response['side_length'])
 
             if length <= 0 or width <= 0 or side <= 0:
                 raise ValueError("Length, width, and side length must be positive integers.")
-            
+
 
             w1,w2 = generate_coordinates(start=0,limit=length,step=side)
             df = generate_ordered_pairs(w1,w2)
@@ -100,14 +32,16 @@ class inscribing_square_api(APIView):
             final_list = arr.tolist()
             # print(df)
             print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
-        
+
             return Response({"square count":count, "center coordinates": final_list},status=status.HTTP_200_OK)
-        
+
         except ValueError as ve:
             error = str(ve)
             return Response({"error_message": error}, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
             error = str(e)
-
             return Response({"error_message":error},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+#Coordinates on the circumference of a circle
