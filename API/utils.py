@@ -61,5 +61,3 @@ def get_count(dataframe):
     final_num = len(flattened_list)
 
     return final_num
-
-

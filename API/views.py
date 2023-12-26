@@ -4,10 +4,10 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .inscribe_square import generate_coordinates, generate_ordered_pairs, get_count
+from .utils import generate_coordinates, generate_ordered_pairs, get_count
 import json
 
-#Inscribing Sqaures API
+#Inscribing Squares API
 class inscribing_square_api(APIView):
     def post(self,request):
         try:
