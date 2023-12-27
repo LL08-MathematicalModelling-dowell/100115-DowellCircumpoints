@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .utils import generate_coordinates, generate_ordered_pairs, get_count, points_on_circle
 import json
+import numpy as np
 
 #Inscribing Squares API
 class inscribing_square_api(APIView):
@@ -21,7 +22,19 @@ class inscribing_square_api(APIView):
 
 
             w1,w2 = generate_coordinates(start=0,limit=length,step=side)
-            df = generate_ordered_pairs(w1,w2)
+            list1 = np.flip(w1)
+            list1 = np.append(list1, w2)
+            x_num = len(w1)
+            print(list1)
+            print("Total no. of X-coordinates: ", x_num)
+
+            w1,w2 = generate_coordinates(start=0,limit=width,step=side)
+            list2 = np.flip(w2)
+            list2 = np.append(list2, w1)
+            y_num = len(w2)
+            print(list2)
+            print("Total no. of Y-coordinates: ", y_num)
+            df = generate_ordered_pairs(list1,list2)
             count = get_count(df)
             # file_path = 'square.xlsx'
             # excel_file = df.to_excel(file_path, index=False)
@@ -30,7 +43,7 @@ class inscribing_square_api(APIView):
             # print(df)
             print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
 
-            return Response({"square count":count, "center coordinates": final_list},status=status.HTTP_200_OK)
+            return Response({"square_count":count, "center_coordinates": final_list},status=status.HTTP_200_OK)
 
         except ValueError as ve:
             error = str(ve)

@@ -3,38 +3,22 @@ import pandas as pd
 import itertools
 import math
 
-def generate_coordinates(start,limit,step):
-    y = []
-    x = []
-    iterations = int(10*limit)
-    i = 0
+def generate_coordinates(start, limit, step):
+    y = np.array([], dtype=float)
+    x = np.array([], dtype=float)
     count = start
-
+    iterations = int(10 * limit)
 
     for i in range(iterations):
-        y.append(round(count,3))
-        if i>0:
-            x.append(round(-count,3))
-        if i != iterations:
+        y = np.append(y, round(count, 3))
+        if i > 0:
+            x = np.append(x, round(-count, 3))
+        if i != iterations - 1:
             count += step
-        i += 1
-        if count>(limit/2):
+        if count > limit / 2:
             break
+    return x, y
 
-    list1 =  list(reversed(x))
-    list1.extend(y)
-    x_num = len(list1)
-    print(list1)
-    print("Total no. of X-coordinates: ",x_num)
-
-    # For Ycoordinates
-    list2 = list(reversed(y))
-    list2.extend(x)
-    y_num = len(list2)
-    print(list2)
-    print("Total no. of Y-coordinates: ",y_num)
-
-    return list1,list2
 
 def generate_ordered_pairs(list1,list2):
     #preparing the dataframe of the coordinates
