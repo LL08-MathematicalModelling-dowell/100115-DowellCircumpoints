@@ -4,7 +4,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import generate_coordinates, generate_ordered_pairs, get_count
+from .utils import generate_coordinates, generate_ordered_pairs, get_count, points_on_circle
 import json
 
 #Inscribing Squares API
@@ -15,9 +15,6 @@ class inscribing_square_api(APIView):
             length = int(response['length'])
             width = int(response['width'])
             side = int(response['side_length'])
-
-            if 'length' not in response or 'width' not in response or 'side_length' not in response:
-                raise ValueError("Invalid input. Please provide 'length', 'width', and 'side_length'.")
 
             if length <= 0 or width <= 0 or side <= 0:
                 raise ValueError("Length, width, and side length must be positive integers.")
@@ -45,3 +42,31 @@ class inscribing_square_api(APIView):
 
 
 #Coordinates on the circumference of a circle
+class circumference_api(APIView):
+    def post(self,request):
+        try:
+            response = json.loads(request.body)
+            print(response)
+
+            center_x = float(response['center_x'])
+            center_y = float(response['center_y'])
+            radius = float(response['radius'])
+            num_points = int(response['num_of_points'])
+
+            if radius<0:
+                raise ValueError("Radius cannot be negative")
+
+            if num_points<=0:
+                raise ValueError("Number of points should be a positive number")
+
+            circle_points = points_on_circle(center_x, center_y, radius, num_points)
+
+            return Response({'coordinates':circle_points})
+
+        except ValueError as ve:
+            error = str(ve)
+            return Response({"error_message": error}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            error = str(e)
+            return Response({"error_message":error},status=status.HTTP_500_INTERNAL_SERVER_ERROR)

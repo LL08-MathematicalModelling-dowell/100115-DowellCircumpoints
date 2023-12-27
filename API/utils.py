@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import itertools
-
+import math
 
 def generate_coordinates(start,limit,step):
     y = []
@@ -61,3 +61,12 @@ def get_count(dataframe):
     final_num = len(flattened_list)
 
     return final_num
+
+def points_on_circle(center_x, center_y, radius, num_points):
+    points = []
+    for i in range(num_points):
+        theta = 2 * math.pi * i / num_points
+        x = center_x + radius * math.cos(theta)
+        y = center_y + radius * math.sin(theta)
+        points.append((x, y))
+    return points
