@@ -4,7 +4,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import generate_coordinates, generate_ordered_pairs, get_count, points_on_circle
+from .utils import get_event_id, generate_coordinates, generate_ordered_pairs, get_count, points_on_circle
 import json
 import numpy as np
 
@@ -42,8 +42,8 @@ class inscribing_square_api(APIView):
             final_list = arr.tolist()
             # print(df)
             print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
-
-            return Response({"square_count":count, "center_coordinates": final_list},status=status.HTTP_200_OK)
+            event = get_event_id()
+            return Response({"event_id":event["event_id"], "square_count":count, "center_coordinates": final_list},status=status.HTTP_200_OK)
 
         except ValueError as ve:
             error = str(ve)
@@ -73,8 +73,9 @@ class circumference_api(APIView):
                 raise ValueError("Number of points should be a positive number")
 
             circle_points = points_on_circle(center_x, center_y, radius, num_points)
+            event = get_event_id()
 
-            return Response({'coordinates':circle_points})
+            return Response({"event_id":event["event_id"],'coordinates':circle_points})
 
         except ValueError as ve:
             error = str(ve)
