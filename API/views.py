@@ -1,12 +1,13 @@
-# from django.shortcuts import render
-# from django.http import HttpResponse
-# from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .utils import get_event_id, generate_coordinates, generate_ordered_pairs, get_count, points_on_circle, convert_coordinates_df
 import json
 import numpy as np
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from .serializers import *
+
 
 #Inscribing Squares API
 class inscribing_square_api(APIView):
@@ -122,3 +123,73 @@ class conversion_api(APIView):
             arr = converted_df.to_numpy()
             converted_coords = arr.tolist()
         return Response({"square_count":count, "actual_coords":cartesian_coords, "converted_coords":converted_coords})
+@method_decorator(csrf_exempt, name='dispatch')
+class convert_coordinates_api(APIView):
+    def get(self, request):
+        type_request = request.GET.get('type')
+
+        if type_request == "squares":
+            return self.square(request)
+        elif type_request == "circles":
+            return self.circles(request)
+        else:
+            return self.handle_error(request)
+    
+    def square(self, request):
+        length = int(request.GET.get('length'))
+        width = int(request.GET.get('width'))
+        value = float(request.GET.get('value'))
+
+        serializer = ConvertCoordinatesSerializer(data={"length": length,"width": width,"value": value})
+
+        if not serializer.is_valid():
+            return Response({
+                "success": False,
+                "message": "Posting wrong data to API",
+                
+                "error": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        w1,w2 = generate_coordinates(start=0,limit=length,step=value)
+        list1 = np.flip(w1)
+        list1 = np.append(list1, w2)
+        x_num = len(w1)
+        print("Total no. of X-coordinates: ", x_num)
+     
+        w1,w2 = generate_coordinates(start=0,limit=width,step=value)
+        list2 = np.flip(w2)
+        list2 = np.append(list2, w1)
+        y_num = len(w2)
+        print("Total no. of Y-coordinates: ", y_num)
+        df = generate_ordered_pairs(list1,list2)
+        count = get_count(df)
+       
+        arr = df.to_numpy()
+        cartesian_coords = arr.tolist()
+        
+        converted_df = convert_coordinates_df(df)
+        arr = converted_df.to_numpy()
+        converted_coords = arr.tolist()
+        return Response({
+            "success": True,
+            "message": "The converted coordinates was successfully converted to latitude and longitude", 
+            "response":{
+                "square_count": count,
+                "actual_coordinates": cartesian_coords,
+                "converted_coordinates": [
+                    [
+                        [f'{num:.10f}' for num in pair] for pair in sub_list
+                    ] for sub_list in converted_coords
+                ],
+            }  
+        }, status=status.HTTP_200_OK)
+    
+    def circles(self, request):
+        pass
+
+    """HANDLE ERROR"""
+    def handle_error(self, request): 
+        return Response({
+            "success": False,
+            "message": "Invalid request type"
+        }, status=status.HTTP_400_BAD_REQUEST)
