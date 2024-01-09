@@ -94,3 +94,18 @@ def points_on_circle(center_x, center_y, radius, num_points):
         y = center_y + radius * math.sin(theta)
         points.append((x, y))
     return points
+
+# cartesian to lat long conversion
+def convert_coordinates_df(df):
+    def convert_coordinates(coords):
+        if isinstance(coords, list) and len(coords) == 2:
+            x, y = coords
+            new_x = "{:.10f}".format(y * 0.000008987)
+            new_y = "{:.10f}".format(x * 0.000008987)
+            return [float(new_x), float(new_y)]
+        else:
+            return coords
+
+    # Apply conversion function to each cell in the DataFrame
+    converted_df = df.applymap(convert_coordinates)
+    return converted_df
