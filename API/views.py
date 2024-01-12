@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import get_event_id, generate_coordinates, generate_ordered_pairs, get_count, points_on_circle, convert_coordinates_df, inscribing_squares
+from .utils import get_event_id, points_on_circle, convert_coordinates_df, inscribing_squares
 from .dowellinscribing import circle_inscribing_api
 import json
 import numpy as np
@@ -11,6 +11,7 @@ from .serializers import *
 
 
 #Inscribing Squares API
+@method_decorator(csrf_exempt, name='dispatch')
 class inscribing_square_api(APIView):
     def post(self,request):
         try:
@@ -57,6 +58,7 @@ class inscribing_square_api(APIView):
 
 
 #Coordinates on the circumference of a circle
+@method_decorator(csrf_exempt, name='dispatch')
 class circumference_api(APIView):
     def post(self,request):
         try:
@@ -88,25 +90,7 @@ class circumference_api(APIView):
             return Response({"error_message":error},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     
-    # (x,y) to (lat, long) conversion
-class conversion_api(APIView):
-    def post(self,request):
-        response = json.loads(request.body)
-        length = int(response['length'])
-        width = int(response['width'])
-        shape = int(response['shape_choice'])
-        value = float(response['value'])
-
-        if shape == 0:
-            
-            # print(df)
-            # print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
-
-            converted_df = convert_coordinates_df(df)
-            arr = converted_df.to_numpy()
-            converted_coords = arr.tolist()
-        return Response({"square_count":count, "actual_coords":cartesian_coords, "converted_coords":converted_coords})
-
+# (x,y) to (lat, long) conversion
 @method_decorator(csrf_exempt, name='dispatch')
 class convert_coordinates_api(APIView):
     def get(self, request):
@@ -174,7 +158,7 @@ class convert_coordinates_api(APIView):
         print(circle_data)
         return Response("calling inscribing api")
 
-    """HANDLE ERROR"""
+    # Handling errors
     def handle_error(self, request): 
         return Response({
             "success": False,
