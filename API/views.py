@@ -1,7 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import get_event_id, generate_coordinates, generate_ordered_pairs, get_count, points_on_circle, convert_coordinates_df
+from .utils import get_event_id, generate_coordinates, generate_ordered_pairs, get_count, points_on_circle, convert_coordinates_df, inscribing_squares
+from .dowellinscribing import circle_inscribing_api
 import json
 import numpy as np
 from django.utils.decorators import method_decorator
@@ -97,25 +98,7 @@ class conversion_api(APIView):
         value = float(response['value'])
 
         if shape == 0:
-            w1,w2 = generate_coordinates(start=0,limit=length,step=value)
-            list1 = np.flip(w1)
-            list1 = np.append(list1, w2)
-            x_num = len(w1)
-            print(list1)
-            print("Total no. of X-coordinates: ", x_num)
-
-            w1,w2 = generate_coordinates(start=0,limit=width,step=value)
-            list2 = np.flip(w2)
-            list2 = np.append(list2, w1)
-            y_num = len(w2)
-            print(list2)
-            print("Total no. of Y-coordinates: ", y_num)
-            df = generate_ordered_pairs(list1,list2)
-            count = get_count(df)
-            # file_path = 'square.xlsx'
-            # excel_file = df.to_excel(file_path, index=False)
-            arr = df.to_numpy()
-            cartesian_coords = arr.tolist()
+            
             # print(df)
             # print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
 
@@ -123,6 +106,7 @@ class conversion_api(APIView):
             arr = converted_df.to_numpy()
             converted_coords = arr.tolist()
         return Response({"square_count":count, "actual_coords":cartesian_coords, "converted_coords":converted_coords})
+
 @method_decorator(csrf_exempt, name='dispatch')
 class convert_coordinates_api(APIView):
     def get(self, request):
@@ -150,42 +134,45 @@ class convert_coordinates_api(APIView):
                 "error": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
         
-        w1,w2 = generate_coordinates(start=0,limit=length,step=value)
-        list1 = np.flip(w1)
-        list1 = np.append(list1, w2)
-        x_num = len(w1)
-        print("Total no. of X-coordinates: ", x_num)
-     
-        w1,w2 = generate_coordinates(start=0,limit=width,step=value)
-        list2 = np.flip(w2)
-        list2 = np.append(list2, w1)
-        y_num = len(w2)
-        print("Total no. of Y-coordinates: ", y_num)
-        df = generate_ordered_pairs(list1,list2)
-        count = get_count(df)
-       
-        arr = df.to_numpy()
-        cartesian_coords = arr.tolist()
+        count, df, cartesian_coords = inscribing_squares(length = length, width = width, side = value)
         
         converted_df = convert_coordinates_df(df)
         arr = converted_df.to_numpy()
         converted_coords = arr.tolist()
-        return Response({
-            "success": True,
-            "message": "The converted coordinates was successfully converted to latitude and longitude", 
-            "response":{
-                "square_count": count,
-                "actual_coordinates": cartesian_coords,
-                "converted_coordinates": [
+        converted_list = [
                     [
                         [f'{num:.10f}' for num in pair] for pair in sub_list
                     ] for sub_list in converted_coords
-                ],
+                ]
+
+        return Response({
+            "success": True,
+            "message": "The cartesian coordinates were successfully converted to latitude and longitude", 
+            "response":{
+                "square_count": count,
+                "actual_coordinates": cartesian_coords,
+                "converted_coordinates": converted_list,
             }  
         }, status=status.HTTP_200_OK)
     
     def circles(self, request):
-        pass
+        length = int(request.GET.get('length'))
+        width = int(request.GET.get('width'))
+        value = float(request.GET.get('value'))
+
+        serializer = ConvertCoordinatesSerializer(data={"length": length,"width": width,"value": value})
+
+        if not serializer.is_valid():
+            return Response({
+                "success": False,
+                "message": "Posting wrong data to API",
+                
+                "error": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        circle_data = circle_inscribing_api(length = length, width = width, radius = value)
+        print(circle_data)
+        return Response("calling inscribing api")
 
     """HANDLE ERROR"""
     def handle_error(self, request): 

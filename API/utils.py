@@ -85,6 +85,29 @@ def get_count(dataframe):
 
     return final_num
 
+# Inscribing square fucntion
+def inscribing_squares(length, width, side):
+    w1,w2 = generate_coordinates(start=0,limit=length,step=side)
+    list1 = np.flip(w1)
+    list1 = np.append(list1, w2)
+    x_num = len(w1)
+    print(list1)
+    print("Total no. of X-coordinates: ", x_num)
+
+    w1,w2 = generate_coordinates(start=0,limit=width,step=side)
+    list2 = np.flip(w2)
+    list2 = np.append(list2, w1)
+    y_num = len(w2)
+    print(list2)
+    print("Total no. of Y-coordinates: ", y_num)
+    df = generate_ordered_pairs(list1,list2)
+    count = get_count(df)
+    arr = df.to_numpy()
+    cartesian_coords = arr.tolist()
+
+    return count, df, cartesian_coords
+
+
 # calculate the coordinates of points on the circumference of a circle
 def points_on_circle(center_x, center_y, radius, num_points):
     points = []
@@ -100,9 +123,9 @@ def convert_coordinates_df(df):
     def convert_coordinates(coords):
         if isinstance(coords, list) and len(coords) == 2:
             x, y = coords
-            new_x = "{:.10f}".format(y * 0.000008987)
-            new_y = "{:.10f}".format(x * 0.000008987)
-            return [float(new_x), float(new_y)]
+            lat = "{:.10f}".format(y * 0.000008987)
+            lon = "{:.10f}".format(x * 0.000008987)
+            return [float(lat), float(lon)]
         else:
             return coords
 
