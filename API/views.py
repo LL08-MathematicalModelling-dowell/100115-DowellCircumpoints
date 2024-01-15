@@ -1,7 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import get_event_id, points_on_circle, convert_coordinates_df, inscribing_squares
+from django.http import JsonResponse
+from urllib.parse import parse_qs
+from .utils import get_event_id, points_on_circle, points_on_circles_dict, convert_coordinates_df, inscribing_squares
 from .dowellinscribing import circle_inscribing_api
 import json
 import numpy as np
@@ -89,6 +91,31 @@ class circumference_api(APIView):
             error = str(e)
             return Response({"error_message":error},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# multi-circle circumference API
+@method_decorator(csrf_exempt, name='dispatch')
+class multi_circumference_api(APIView):
+    def get(self,request):
+        try:
+            center_coordinates = json.loads(request.GET.get('center_coordinates'))
+            radius = float(request.GET.get('radius'))
+            num_points = 360
+
+            if radius<0:
+                raise ValueError("Radius cannot be negative")
+
+            circle_points = points_on_circles_dict(center_coordinates, radius, num_points)
+            event = get_event_id()
+
+            return Response({"success":True,"event_id":event["event_id"],'circum_points_dict':circle_points})
+
+        except ValueError as ve:
+            error = str(ve)
+            return Response({"error_message": error}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            error = str(e)
+            return Response({"error_message":error},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     
 # (x,y) to (lat, long) conversion
 @method_decorator(csrf_exempt, name='dispatch')
@@ -154,9 +181,15 @@ class convert_coordinates_api(APIView):
                 "error": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        circle_data = circle_inscribing_api(length = length, width = width, radius = value)
-        print(circle_data)
-        return Response("calling inscribing api")
+        circle_data = JsonResponse(circle_inscribing_api(length = length, width = width, radius = value))
+        print("type--------------->",type(circle_data))
+        coordinates = circle_data["coordinates"]
+        converted_list = [
+                        [f'{num:.10f}' for num in pair] for pair in coordinates
+                    ] 
+
+        print(converted_list)
+        return circle_data
 
     # Handling errors
     def handle_error(self, request): 

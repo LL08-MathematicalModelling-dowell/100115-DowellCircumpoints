@@ -118,6 +118,17 @@ def points_on_circle(center_x, center_y, radius, num_points):
         points.append((x, y))
     return points
 
+# calculate points on circumference of multiple circles
+def points_on_circles_dict(center_coordinates, radius, num_points):
+    all_points_dict = {}
+    
+    for center in center_coordinates:
+        center_x, center_y = center
+        points = points_on_circle(center_x, center_y, radius, num_points)
+        all_points_dict[str(center)] = points
+    
+    return all_points_dict
+
 # cartesian to lat long conversion
 def convert_coordinates_df(df):
     def convert_coordinates(coords):
