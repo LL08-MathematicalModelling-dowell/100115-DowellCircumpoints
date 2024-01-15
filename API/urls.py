@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from .views import inscribing_square_api, circumference_api, multi_circumference_api, convert_coordinates_api
 
 urlpatterns = [
     path('square_api',inscribing_square_api.as_view()),
