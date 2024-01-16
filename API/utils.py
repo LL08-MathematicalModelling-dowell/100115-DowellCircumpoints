@@ -129,6 +129,32 @@ def points_on_circles_dict(center_coordinates, radius, num_points):
     
     return all_points_dict
 
+# calculate points of intersection for multiple circles
+def find_intersection_points(center_coordinates, radius, num_points):
+    intersection_points = []
+
+    for i in range(len(center_coordinates)):
+        for j in range(i + 1, len(center_coordinates)):
+            center1_x, center1_y = center_coordinates[i]
+#             print(center1_x, center1_y)
+            center2_x, center2_y = center_coordinates[j]
+
+            # Check if circles intersect
+            distance_between_centers = math.sqrt((center2_x - center1_x)**2 + (center2_y - center1_y)**2)
+#             print(distance_between_centers)
+            if distance_between_centers < 2 * radius:
+                # Circles intersect, find intersection points
+                points_list1 = points_on_circle(center1_x, center1_y, radius, num_points)
+                points_list2 = points_on_circle(center2_x, center2_y, radius, num_points)
+                
+                # Find common points
+                common_points = set(points_list1).intersection(points_list2)
+                
+                intersection_points.extend(common_points)
+
+    return intersection_points
+
+
 # cartesian to lat long conversion
 def convert_coordinates_df(df):
     def convert_coordinates(coords):

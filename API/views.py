@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.http import JsonResponse
 from urllib.parse import parse_qs
-from .utils import get_event_id, points_on_circle, points_on_circles_dict, convert_coordinates_df, inscribing_squares
+from .utils import get_event_id, points_on_circle, points_on_circles_dict, find_intersection_points,convert_coordinates_df, inscribing_squares
 from .dowellinscribing import circle_inscribing_api
 import json
 import numpy as np
@@ -98,15 +98,18 @@ class multi_circumference_api(APIView):
         try:
             center_coordinates = json.loads(request.GET.get('center_coordinates'))
             radius = float(request.GET.get('radius'))
+            print(center_coordinates, radius)
             num_points = 360
 
             if radius<0:
                 raise ValueError("Radius cannot be negative")
 
             circle_points = points_on_circles_dict(center_coordinates, radius, num_points)
+            points_of_intersection = find_intersection_points(center_coordinates, radius, num_points)
+            
             event = get_event_id()
 
-            return Response({"success":True,"event_id":event["event_id"],'circum_points_dict':circle_points})
+            return Response({"success":True,"event_id":event["event_id"],'circum_points_dict':circle_points,"points_of_intersection":points_of_intersection})
 
         except ValueError as ve:
             error = str(ve)
