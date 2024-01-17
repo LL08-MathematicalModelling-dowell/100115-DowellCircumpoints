@@ -98,7 +98,6 @@ class multi_circumference_api(APIView):
         try:
             center_coordinates = json.loads(request.GET.get('center_coordinates'))
             radius = float(request.GET.get('radius'))
-            print(center_coordinates, radius)
             num_points = 360
 
             if radius<0:

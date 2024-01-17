@@ -136,19 +136,22 @@ def find_intersection_points(center_coordinates, radius, num_points):
     for i in range(len(center_coordinates)):
         for j in range(i + 1, len(center_coordinates)):
             center1_x, center1_y = center_coordinates[i]
-#             print(center1_x, center1_y)
+            # print(center1_x, center1_y)
             center2_x, center2_y = center_coordinates[j]
 
             # Check if circles intersect
-            distance_between_centers = math.sqrt((center2_x - center1_x)**2 + (center2_y - center1_y)**2)
-#             print(distance_between_centers)
+            distance_between_centers = round(math.sqrt((center2_x - center1_x)**2 + (center2_y - center1_y)**2),4)
+            print(distance_between_centers)
             if distance_between_centers < 2 * radius:
                 # Circles intersect, find intersection points
                 points_list1 = points_on_circle(center1_x, center1_y, radius, num_points)
+                rounded_off_list1 = [(round(x,4), round(y,4)) for x, y in points_list1]
+                print("rounded_off_list1--->",rounded_off_list1)
                 points_list2 = points_on_circle(center2_x, center2_y, radius, num_points)
-                
+                rounded_off_list2 = [(round(x,4), round(y,4)) for x, y in points_list2]
+                print("rounded_off_list2--->",rounded_off_list2)
                 # Find common points
-                common_points = set(points_list1).intersection(points_list2)
+                common_points = set(rounded_off_list1).intersection(rounded_off_list2)
                 
                 intersection_points.extend(common_points)
 
