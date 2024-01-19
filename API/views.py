@@ -152,11 +152,11 @@ class convert_coordinates_api(APIView):
         converted_df = convert_coordinates_df(df)
         arr = converted_df.to_numpy()
         converted_coords = arr.tolist()
-        converted_list = [
-                    [
-                        [f'{num:.10f}' for num in pair] for pair in sub_list
-                    ] for sub_list in converted_coords
-                ]
+        # converted_list = [
+        #             [
+        #                 [f'{num:.10f}' for num in pair] for pair in sub_list
+        #             ] for sub_list in converted_coords
+        #         ]
 
         return Response({
             "success": True,
@@ -164,7 +164,7 @@ class convert_coordinates_api(APIView):
             "response":{
                 "square_count": count,
                 "actual_coordinates": cartesian_coords,
-                "converted_coordinates": converted_list,
+                "converted_coordinates": converted_coords,
             }  
         }, status=status.HTTP_200_OK)
     
@@ -183,15 +183,24 @@ class convert_coordinates_api(APIView):
                 "error": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        circle_data = JsonResponse(circle_inscribing_api(length = length, width = width, radius = value))
-        print("type--------------->",type(circle_data))
-        coordinates = circle_data["coordinates"]
-        converted_list = [
-                        [f'{num:.10f}' for num in pair] for pair in coordinates
-                    ] 
+        circle_data = json.loads(circle_inscribing_api(length = length, width = width, radius = value))
+        cartesian_coords = circle_data["coordinates"]
+        count = circle_data["numberOfCircles"]
 
-        print(converted_list)
-        return circle_data
+        converted_coords = [
+                           ['{:.15f}'.format(pair[1]*0.000008987), '{:.15f}'.format(pair[0]*0.000008987)] for pair in cartesian_coords
+                         ]
+        # print(converted_list)
+
+        return Response({
+            "success": True,
+            "message": "The cartesian coordinates were successfully converted to latitude and longitude", 
+            "response":{
+                "circle_count": count,
+                "actual_coordinates": cartesian_coords,
+                "converted_coordinates": converted_coords,
+            }  
+        }, status=status.HTTP_200_OK)
 
     # Handling errors
     def handle_error(self, request): 

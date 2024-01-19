@@ -165,7 +165,7 @@ def convert_coordinates_df(df):
             x, y = coords
             lat = "{:.10f}".format(y * 0.000008987)
             lon = "{:.10f}".format(x * 0.000008987)
-            return [float(lat), float(lon)]
+            return [lat, lon]
         else:
             return coords
 

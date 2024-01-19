@@ -10,6 +10,6 @@ def circle_inscribing_api(length,width,radius):
             }
     data = requests.post(url, json = payload)
     if data.status_code == 200:
-        return json.loads(data.text)
+        return data.text
     else:
         return json.loads(data.text)["error"]
