@@ -103,10 +103,11 @@ class multi_circumference_api(APIView):
 
             circle_points = points_on_circles_dict(center_coordinates, radius, num_points)
             points_of_intersection = find_intersection_points(center_coordinates, radius, num_points)
-            
+            num_of_points = len(points_of_intersection)
+
             event = get_event_id()
 
-            return Response({"success":True,"event_id":event["event_id"],'circum_points_dict':circle_points,"points_of_intersection":points_of_intersection})
+            return Response({"success":True,"event_id":event["event_id"],'circum_points_dict':circle_points,"total_points_of_intersection":num_of_points, "points_of_intersection":points_of_intersection})
 
         except ValueError as ve:
             error = str(ve)
