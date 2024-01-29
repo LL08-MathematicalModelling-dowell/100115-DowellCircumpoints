@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinate Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        /* Hide shape-specific inputs by default */
+        #squareSideLengthContainer,
+        #circleRadiusContainer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Coordinate Calculator</h2>
+    <form id="coordinateForm">
+        <label for="dataType">Type of Data:</label>
+        <select id="dataType" name="dataType">
+            <option value="--select--" selected>--select--</option>
+            <option value="cartesian">Cartesian Coordinates</option>
+            <option value="geocoordinates">Geocoordinates</option>
+        </select>
+        <br><br>
+
+        <label for="shapeType">Type of Shape:</label>
+            <select id="shapeType" name="shapeType" onchange="toggleShapeInputs()">
+                <option value="--select--" selected>--select--</option>
+                <option value="square">Square</option>
+                <option value="circle">Circle</option>
+            </select>
+            <br><br>
+
+            <!-- Square side length input container -->
+            <div id="squareSideLengthContainer">
+                <label for="squareSideLength">Side Length of the Square:</label>
+                <input type="number" id="squareSideLength" name="squareSideLength" placeholder="Enter side length">
+            </div>
+
+            <!-- Circle radius input container -->
+            <div id="circleRadiusContainer">
+                <label for="circleRadius">Radius of the Circle:</label>
+                <input type="number" id="circleRadius" name="circleRadius" placeholder="Enter circle radius">
+            </div>
+            
+        <label for="canvasDimensions">Dimensions of the Canvas:</label>
+        <input type="text" id="canvasDimensions" name="canvasDimensions" placeholder="e.g., 800x600">
+        <br><br>
+
+        <label for="gpsDeviceCenters">Centers of the GPS Devices:</label>
+            <input type="text" id="gpsDeviceCenters" name="gpsDeviceCenters" placeholder="e.g., [[0,0], [1,2], [3,4]]">
+        <br><br>
+
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+
+    <script>
+        function toggleShapeInputs() {
+            var shapeType = document.getElementById('shapeType').value;
+            var squareSideLengthContainer = document.getElementById('squareSideLengthContainer');
+            var circleRadiusContainer = document.getElementById('circleRadiusContainer');
+
+            // Show/hide shape-specific input containers based on shape type
+            squareSideLengthContainer.style.display = (shapeType === 'square') ? 'block' : 'none';
+            circleRadiusContainer.style.display = (shapeType === 'circle') ? 'block' : 'none';
+        }
+
+        function calculate() {
+            // Add your calculations logic here
+            // You can access the form inputs using document.getElementById('elementId').value
+            // Example: var dataType = document.getElementById('dataType').value;
+        }
+    </script>
+</body>
+</html>
