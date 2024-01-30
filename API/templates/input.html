@@ -43,20 +43,20 @@
 </head>
 <body>
     <h2>Coordinate Calculator</h2>
-    <form id="coordinateForm">
+    <form id="coordinateForm",method = "post" action = "inscribing_api_view">
         <label for="dataType">Type of Data:</label>
         <select id="dataType" name="dataType">
             <option value="--select--" selected>--select--</option>
-            <option value="cartesian">Cartesian Coordinates</option>
-            <option value="geocoordinates">Geocoordinates</option>
+            <option value="Cartesian">Cartesian Coordinates</option>
+            <option value="Geocoordinates">Geocoordinates</option>
         </select>
         <br><br>
 
         <label for="shapeType">Type of Shape:</label>
             <select id="shapeType" name="shapeType" onchange="toggleShapeInputs()">
                 <option value="--select--" selected>--select--</option>
-                <option value="square">Square</option>
-                <option value="circle">Circle</option>
+                <option value="squares">Square</option>
+                <option value="circles">Circle</option>
             </select>
             <br><br>
 
@@ -73,14 +73,15 @@
             </div>
             
         <label for="canvasDimensions">Dimensions of the Canvas:</label>
-        <input type="text" id="canvasDimensions" name="canvasDimensions" placeholder="e.g., 800x600">
+        <input type="number" id="canvasDimensions" name="length" placeholder="Length">
+        <input type="number" id="canvasDimensions" name="width" placeholder="Width">
         <br><br>
 
         <label for="gpsDeviceCenters">Centers of the GPS Devices:</label>
             <input type="text" id="gpsDeviceCenters" name="gpsDeviceCenters" placeholder="e.g., [[0,0], [1,2], [3,4]]">
         <br><br>
 
-        <button type="button" onclick="calculate()">Calculate</button>
+        <button type="submit">Calculate</button>
     </form>
 
     <script>
@@ -90,13 +91,10 @@
             var circleRadiusContainer = document.getElementById('circleRadiusContainer');
 
             // Show/hide shape-specific input containers based on shape type
-            squareSideLengthContainer.style.display = (shapeType === 'square') ? 'block' : 'none';
-            circleRadiusContainer.style.display = (shapeType === 'circle') ? 'block' : 'none';
+            squareSideLengthContainer.style.display = (shapeType === 'squares') ? 'block' : 'none';
+            circleRadiusContainer.style.display = (shapeType === 'circles') ? 'block' : 'none';
         }
 
-        function calculate() {
-            
-        }
     </script>
 </body>
 </html>
