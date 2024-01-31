@@ -37,15 +37,20 @@ class inscribing_square_api(APIView):
             y_num = len(w2)
             print(list2)
             print("Total no. of Y-coordinates: ", y_num)
+            
             df = generate_ordered_pairs(list1,list2)
+            
             count = get_count(df)
             # file_path = 'square.xlsx'
             # excel_file = df.to_excel(file_path, index=False)
             arr = df.to_numpy()
             final_list = arr.tolist()
             # print(df)
+            
             print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
+            
             event = get_event_id()
+            
             return Response({"event_id":event["event_id"], "square_count":count, "center_coordinates": final_list},status=status.HTTP_200_OK)
 
         except ValueError as ve:
@@ -94,20 +99,21 @@ class circumference_api(APIView):
 class multi_circumference_api(APIView):
     def get(self,request):
         try:
-            center_coordinates = json.loads(request.GET.get('center_coordinates'))
+            gps_device_centers = json.loads(request.GET.get('gps_device_centers'))
             radius = float(request.GET.get('radius'))
             num_points = 360
 
             if radius<0:
                 raise ValueError("Radius cannot be negative")
 
-            circle_points = points_on_circles_dict(center_coordinates, radius, num_points)
-            points_of_intersection = find_intersection_points(center_coordinates, radius, num_points)
+            circle_points = points_on_circles_dict(gps_device_centers, radius, num_points)
+            points_of_intersection = find_intersection_points(gps_device_centers, radius, num_points)
             num_of_points = len(points_of_intersection)
+            gps_device_count = len(gps_device_centers)
 
             event = get_event_id()
 
-            return Response({"success":True,"event_id":event["event_id"],'circum_points_dict':circle_points,"total_points_of_intersection":num_of_points, "points_of_intersection":points_of_intersection})
+            return Response({"success":True,"event_id":event["event_id"],'gps_device_count':gps_device_count,'circum_points_dict':circle_points,"total_points_of_intersection":num_of_points, "points_of_intersection":points_of_intersection})
 
         except ValueError as ve:
             error = str(ve)
