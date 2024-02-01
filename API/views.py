@@ -72,7 +72,7 @@ def inscribing_api_view(request):
             
             return render(request,'inscribe.html',data)
         else:
-            return("Invalid inputs. Please provide the correct data")
+            return("Invalid shape type. Please provide the correct data")
     else:
         return("Method not allowed")
         

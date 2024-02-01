@@ -141,15 +141,15 @@ def find_intersection_points(center_coordinates, radius, num_points):
 
             # Check if circles intersect
             distance_between_centers = round(math.sqrt((center2_x - center1_x)**2 + (center2_y - center1_y)**2),4)
-            print(distance_between_centers)
+            # print(distance_between_centers)
             if distance_between_centers < 2 * radius:
                 # Circles intersect, find intersection points
                 points_list1 = points_on_circle(center1_x, center1_y, radius, num_points)
                 rounded_off_list1 = [(round(x,4), round(y,4)) for x, y in points_list1]
-                print("rounded_off_list1--->",rounded_off_list1)
+                # print("rounded_off_list1--->",rounded_off_list1)
                 points_list2 = points_on_circle(center2_x, center2_y, radius, num_points)
                 rounded_off_list2 = [(round(x,4), round(y,4)) for x, y in points_list2]
-                print("rounded_off_list2--->",rounded_off_list2)
+                # print("rounded_off_list2--->",rounded_off_list2)
                 # Find common points
                 common_points = set(rounded_off_list1).intersection(rounded_off_list2)
                 

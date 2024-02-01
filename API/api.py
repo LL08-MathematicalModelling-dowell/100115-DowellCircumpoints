@@ -4,6 +4,7 @@ from rest_framework import status
 from .utils import generate_coordinates, generate_ordered_pairs, get_count, get_event_id, points_on_circle, points_on_circles_dict, find_intersection_points,convert_coordinates_df, inscribing_squares
 from .dowellinscribing import circle_inscribing_api
 import json
+import time
 import numpy as np
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -41,11 +42,8 @@ class inscribing_square_api(APIView):
             df = generate_ordered_pairs(list1,list2)
             
             count = get_count(df)
-            # file_path = 'square.xlsx'
-            # excel_file = df.to_excel(file_path, index=False)
             arr = df.to_numpy()
             final_list = arr.tolist()
-            # print(df)
             
             print("No. of squares that can be inscribed in "+str(length)+"X"+str(width)+" canvas:",count)
             
@@ -99,6 +97,8 @@ class circumference_api(APIView):
 class multi_circumference_api(APIView):
     def get(self,request):
         try:
+            start_time = time.time()
+
             gps_device_centers = json.loads(request.GET.get('gps_device_centers'))
             radius = float(request.GET.get('radius'))
             num_points = 360
@@ -112,8 +112,11 @@ class multi_circumference_api(APIView):
             gps_device_count = len(gps_device_centers)
 
             event = get_event_id()
+           
+            end_time = time.time()
+            response_time =  end_time - start_time
 
-            return Response({"success":True,"event_id":event["event_id"],'gps_device_count':gps_device_count,'circum_points_dict':circle_points,"total_points_of_intersection":num_of_points, "points_of_intersection":points_of_intersection})
+            return Response({"success":True,"event_id":event["event_id"],"response_time_seconds": response_time,'gps_device_count':gps_device_count,'circum_points_dict':circle_points,"total_points_of_intersection":num_of_points, "points_of_intersection":points_of_intersection})
 
         except ValueError as ve:
             error = str(ve)
