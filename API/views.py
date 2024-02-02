@@ -1,6 +1,5 @@
 from django.shortcuts import render
 # from .api import inscribing_square_api
-from IPython.display import HTML
 from .utils import generate_coordinates, generate_ordered_pairs
 from .dowellinscribing import circle_inscribing_api
 import json
@@ -49,7 +48,7 @@ def inscribing_api_view(request):
                 }
         
         if shape == 'circles':
-            circleRadius = int(request.GET.get('circleRadius',''))
+            circleRadius = float(request.GET.get('circleRadius',''))
             
             output = json.loads(circle_inscribing_api(length = canvasLength, width = canvasWidth, radius = circleRadius))
 
