@@ -95,12 +95,12 @@ class circumference_api(APIView):
 # multi-circle circumference API
 @method_decorator(csrf_exempt, name='dispatch')
 class multi_circumference_api(APIView):
-    def get(self,request):
+    def post(self,request):
         try:
             start_time = time.time()
-
-            gps_device_centers = json.loads(request.GET.get('gps_device_centers'))
-            radius = float(request.GET.get('radius'))
+            response = json.loads(request.body)
+            gps_device_centers = response['gps_device_centers']
+            radius = float(response['radius'])
             num_points = 360
 
             if radius<0:

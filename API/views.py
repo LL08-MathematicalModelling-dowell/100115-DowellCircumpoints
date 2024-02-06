@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import requests
 # from .api import inscribing_square_api
 from .utils import generate_coordinates, generate_ordered_pairs
 from .dowellinscribing import circle_inscribing_api
@@ -54,7 +55,18 @@ def inscribing_api_view(request):
 
             data['circleRadius'] = circleRadius
             data['output'] = output
-            
+
+            if dataType == 'Geocoordinates':
+                print("I'M IN THE LOOP")
+                api_url = 'https://100070.pythonanywhere.com/convert_coordinates/'
+                params = {'type': shape, 'length':canvasLength, 'width':canvasWidth,"value":circleRadius}
+
+                response = requests.get(api_url, params=params)
+                json_response = response.json()
+                converted_coordinates = json_response['response']['converted_coordinates']
+                data['converted_coordinates']= converted_coordinates
+
+            print(data)
             return render(request,'inscribe.html',data)
     
         elif shape == 'squares':
@@ -68,8 +80,8 @@ def inscribing_api_view(request):
             
             data['sideLength'] = sideLength
             data['output'] = output
-            
-            return render(request,'inscribe.html',data)
+
+        
         else:
             return("Invalid shape type. Please provide the correct data")
     else:
