@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Table from "./Table";
+import ConvertedCoordinateTable from "./ConvertedCoordinateTable";
 
 export default function CoordinateCalculatorView({
   CalculatedValues,
@@ -17,6 +18,12 @@ export default function CoordinateCalculatorView({
 
   const numberOfCircles = CalculatedValues?.numberofCircles;
   const numberOfSquares = CalculatedValues?.square_count;
+
+  const [convert, setConvert] = useState(false);
+
+  const convertCoordinate = () => {
+    setConvert(true);
+  };
 
   return (
     <>
@@ -48,7 +55,16 @@ export default function CoordinateCalculatorView({
       <button onClick={() => setShowTable(!showTable)}>
         {showTable === true ? "Hide Table" : "Show Table"}
       </button>
-      {showTable && <Table data={coordinates} />}
+      {showTable && (
+        <>
+          <Table data={coordinates} />
+          <button onClick={convertCoordinate}>Convert</button>
+          {convert && <ConvertedCoordinateTable formData={UserInputs} />}
+        </>
+      )}
+      <label>Centers of the GPS Devices</label>
+      <input id="" className="" placeholder="e.g., [[0,0], [1,2], [3,4]]" />
+      <button>Submit</button>
     </>
   );
 }

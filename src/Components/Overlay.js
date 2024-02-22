@@ -1,9 +1,12 @@
 import React from "react";
-import useFetchData from "../hooks/useFetchData";
 import CoordinateCalculatorView from "./coordinateCalculatorView";
+import useActualCoordinate from "../hooks/useActualCoordinate";
+import Loading from "./Loading";
+import Error from "./Error";
+import "../App.css";
 
 export default function Overlay({ children, formData }) {
-  const { data, loading, error } = useFetchData(formData);
+  const { data, loading, error } = useActualCoordinate(formData);
 
   if (data) {
     return (
@@ -12,10 +15,10 @@ export default function Overlay({ children, formData }) {
   }
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loading isLoading={loading} />;
   }
   if (error) {
-    return <>{error.message}</>;
+    return <Error error={error} />;
   }
   return <>{children}</>;
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { SquareAPI_URL, CircleApi_URL } from "../util/constants";
 
-export default function useFetchData(formData) {
+export default function useFetchData(url, payload, formData, option) {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -10,40 +9,31 @@ export default function useFetchData(formData) {
     const fetchData = async () => {
       if (!formData) return;
       setLoading(true);
+
       try {
-        const payload =
-          formData.shapeType === "squares"
-            ? {
-                length: formData.length,
-                width: formData.width,
-                side_length: formData.squareSideLength,
-              }
-            : {
-                radius: formData.circleRadius,
-                length: formData.length,
-                width: formData.width,
-              };
-        const url =
-          formData.shapeType === "squares" ? SquareAPI_URL : CircleApi_URL;
+        if (option === "json") {
+          const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
 
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+          const jsonData = await response.json();
+          setData(jsonData);
+        } else {
+          const response = await fetch(url);
 
-        const jsonData = await response.json();
-        setData(jsonData);
+          const jsonData = await response.json();
+
+          setData(jsonData);
+        }
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [formData]);
+
   return { data, error, loading };
 }

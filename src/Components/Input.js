@@ -21,10 +21,12 @@ export default function Input({
           id={id}
           type={type}
           placeholder={placeholder}
-          required
-          {...register(id, {
-            required: { value: true, message: "required" },
-          })}
+          defaultValue={4}
+          {...(required
+            ? register(id, {
+                required: { value: true, message: "required" },
+              })
+            : {})}
         />
       </div>
     </>

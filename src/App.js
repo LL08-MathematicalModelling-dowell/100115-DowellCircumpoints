@@ -46,6 +46,7 @@ export default function App() {
                 label={"Side Length of the Square"}
                 type={"number"}
                 placeholder={"Enter side length"}
+                required={true}
               />
             )}
 
@@ -56,6 +57,7 @@ export default function App() {
                 label={"Radius of the Circle"}
                 type={"number"}
                 placeholder={"Enter circle radius"}
+                required={true}
               />
             )}
 
@@ -65,6 +67,7 @@ export default function App() {
               label={"Dimensions of the Canvas"}
               type={"number"}
               placeholder={"Length"}
+              required={true}
             />
 
             <Input
@@ -72,15 +75,16 @@ export default function App() {
               className="canvasDimensionsContainer"
               type={"number"}
               placeholder={"width"}
+              required={true}
             />
 
-            <Input
+            {/* <Input
               id={"gpsDeviceCenters"}
               className="gpsDeviceCentersContainer"
               label={"Centers of the GPS Devices"}
               type={"number"}
               placeholder={"e.g., [[0,0], [1,2], [3,4]]"}
-            />
+            /> */}
 
             <button type="submit">Calculate</button>
           </form>
