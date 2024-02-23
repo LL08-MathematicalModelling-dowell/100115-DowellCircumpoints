@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import useConvertedCoordinateData from "../hooks/useConvertedCoordinateData";
 import Table from "./Table";
 import Loading from "./Loading";
 import Error from "./Error";
+import { FormContext } from "../App";
 
-export default function ConvertedCoordinateTable(formData) {
+export default function ConvertedCoordinateTable() {
+  const formData = useContext(FormContext);
   const { data, loading, error } = useConvertedCoordinateData(formData);
-
-  console.log(formData);
 
   if (loading) {
     return <Loading isLoading={loading} />;

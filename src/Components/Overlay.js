@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import CoordinateCalculatorView from "./coordinateCalculatorView";
 import useActualCoordinate from "../hooks/useActualCoordinate";
 import Loading from "./Loading";
 import Error from "./Error";
 import "../App.css";
+import { FormContext } from "../App";
 
-export default function Overlay({ children, formData }) {
+export default function Overlay({ children }) {
+  const formData = useContext(FormContext);
   const { data, loading, error } = useActualCoordinate(formData);
 
   if (data) {
-    return (
-      <CoordinateCalculatorView CalculatedValues={data} UserInputs={formData} />
-    );
+    return <CoordinateCalculatorView CalculatedValues={data} />;
   }
 
   if (loading) {

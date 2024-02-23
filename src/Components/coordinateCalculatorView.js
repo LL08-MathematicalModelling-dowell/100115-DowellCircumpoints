@@ -1,38 +1,34 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Table from "./Table";
 import ConvertedCoordinateTable from "./ConvertedCoordinateTable";
 import DataVisualization from "./DataVisualization";
+import { FormContext } from "../App";
 
-export default function CoordinateCalculatorView({
-  CalculatedValues,
-  UserInputs,
-}) {
+export default function CoordinateCalculatorView({ CalculatedValues }) {
+  const formData = useContext(FormContext);
   const [showTable, setShowTable] = useState(false);
+  const [convert, setConvert] = useState(false);
+  const [visualize, setVisualize] = useState(false);
+
+  const [gpsDeviceCenters, setGpsDeviceCenters] = useState("");
 
   const { dataType, shapeType, circleRadius, squareSideLength, width, length } =
-    UserInputs;
+    formData;
 
-  const coordinates =
-    shapeType === "squares"
-      ? CalculatedValues?.center_coordinates
-      : CalculatedValues?.coordinates;
-
-  const numberOfCircles = CalculatedValues?.numberOfCircles;
-  const numberOfSquares = CalculatedValues?.square_count;
-
-  const [convert, setConvert] = useState(false);
+  const {
+    center_coordinates,
+    coordinates: square_coordinates,
+    numberOfCircles,
+    square_count: numberOfSquares,
+  } = CalculatedValues;
 
   const convertCoordinate = () => {
     setConvert(true);
   };
 
-  const [visualize, setVisualize] = useState(false);
-
-  const [cord, setCord] = useState("");
-
-  function handleChange(e) {
-    setCord(e.target.value);
-  }
+  const handleChange = (e) => {
+    setGpsDeviceCenters(e.target.value);
+  };
 
   return (
     <>
@@ -59,16 +55,16 @@ export default function CoordinateCalculatorView({
         <b>{` ${numberOfCircles || numberOfSquares}`}</b>
       </div>
 
-      <h3>{`${dataType} Coordinates`}</h3>
+      <h3>{dataType} Coordinates</h3>
 
       <button onClick={() => setShowTable(!showTable)}>
-        {showTable === true ? "Hide Table" : "Show Table"}
+        {showTable ? "Hide Table" : "Show Table"}
       </button>
       {showTable && (
         <>
-          <Table data={coordinates} />
+          <Table data={center_coordinates || square_coordinates} />
           <button onClick={convertCoordinate}>Convert</button>
-          {convert && <ConvertedCoordinateTable formData={UserInputs} />}
+          {convert && <ConvertedCoordinateTable />}
         </>
       )}
       <label>Centers of the GPS Devices</label>
@@ -86,9 +82,7 @@ export default function CoordinateCalculatorView({
         Submit
       </button>
 
-      {visualize && (
-        <DataVisualization formData={UserInputs} gpsDeviceCenters={cord} />
-      )}
+      {visualize && <DataVisualization gpsDeviceCenters={gpsDeviceCenters} />}
     </>
   );
 }
