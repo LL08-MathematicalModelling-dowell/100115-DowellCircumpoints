@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Table from "./Table";
 import ConvertedCoordinateTable from "./ConvertedCoordinateTable";
+import DataVisualization from "./DataVisualization";
 
 export default function CoordinateCalculatorView({
   CalculatedValues,
@@ -16,7 +17,7 @@ export default function CoordinateCalculatorView({
       ? CalculatedValues?.center_coordinates
       : CalculatedValues?.coordinates;
 
-  const numberOfCircles = CalculatedValues?.numberofCircles;
+  const numberOfCircles = CalculatedValues?.numberOfCircles;
   const numberOfSquares = CalculatedValues?.square_count;
 
   const [convert, setConvert] = useState(false);
@@ -24,6 +25,14 @@ export default function CoordinateCalculatorView({
   const convertCoordinate = () => {
     setConvert(true);
   };
+
+  const [visualize, setVisualize] = useState(false);
+
+  const [cord, setCord] = useState("");
+
+  function handleChange(e) {
+    setCord(e.target.value);
+  }
 
   return (
     <>
@@ -63,8 +72,23 @@ export default function CoordinateCalculatorView({
         </>
       )}
       <label>Centers of the GPS Devices</label>
-      <input id="" className="" placeholder="e.g., [[0,0], [1,2], [3,4]]" />
-      <button>Submit</button>
+      <input
+        id=""
+        className=""
+        placeholder="e.g., [[0,0], [1,2], [3,4]]"
+        onChange={handleChange}
+      />
+      <button
+        onClick={() => {
+          setVisualize(true);
+        }}
+      >
+        Submit
+      </button>
+
+      {visualize && (
+        <DataVisualization formData={UserInputs} gpsDeviceCenters={cord} />
+      )}
     </>
   );
 }
