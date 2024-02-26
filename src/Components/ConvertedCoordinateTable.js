@@ -3,7 +3,7 @@ import useConvertedCoordinateData from "../hooks/useConvertedCoordinateData";
 import Table from "./Table";
 import Loading from "./Loading";
 import Error from "./Error";
-import { FormContext } from "../App";
+import { FormContext } from "../Pages/Form";
 
 export default function ConvertedCoordinateTable() {
   const formData = useContext(FormContext);
