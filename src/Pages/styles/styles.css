@@ -1,0 +1,85 @@
+.button-holder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.3rem;
+}
+
+.coordinate-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coordinate-table-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.coordinate-container {
+  display: grid;
+  grid-template-columns: 0.8fr 0.8fr;
+  place-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
+    0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11);
+}
+
+.data-visualization-container {
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  justify-content: space-around;
+  width: 100%;
+  height: auto;
+}
+
+.data-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+}
+
+.button {
+  width: 48%;
+  height: 3rem;
+  background: white;
+  color: black;
+  outline: 1px solid #154078;
+}
+
+.active-button {
+  width: 48%;
+  height: 3rem;
+  background: #154078;
+  color: white;
+  /* outline: 1px solid #154078; */
+}
+
+.scrollable-div {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 30rem;
+  /* margin-bottom: 2rem; */
+}
+
+.table-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
