@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import Table from "./Table";
 import ConvertedCoordinateTable from "./ConvertedCoordinateTable";
-import DataVisualization from "./DataVisualization";
-import { FormContext } from "../App";
+import { Link } from "react-router-dom";
+import { FormContext } from "../Pages/Form";
 
 export default function CoordinateCalculatorView({ CalculatedValues }) {
   const formData = useContext(FormContext);
   const [showTable, setShowTable] = useState(false);
   const [convert, setConvert] = useState(false);
-  const [visualize, setVisualize] = useState(false);
 
   const [gpsDeviceCenters, setGpsDeviceCenters] = useState("");
+  const [radius, setRadius] = useState("");
 
   const { dataType, shapeType, circleRadius, squareSideLength, width, length } =
     formData;
@@ -28,6 +28,10 @@ export default function CoordinateCalculatorView({ CalculatedValues }) {
 
   const handleChange = (e) => {
     setGpsDeviceCenters(e.target.value);
+  };
+
+  const changeRadius = (e) => {
+    setRadius(e.target.value);
   };
 
   return (
@@ -74,15 +78,23 @@ export default function CoordinateCalculatorView({ CalculatedValues }) {
         placeholder="e.g., [[0,0], [1,2], [3,4]]"
         onChange={handleChange}
       />
-      <button
-        onClick={() => {
-          setVisualize(true);
-        }}
-      >
-        Submit
-      </button>
-
-      {visualize && <DataVisualization gpsDeviceCenters={gpsDeviceCenters} />}
+      <label>Radius</label>
+      <input
+        id=""
+        className=""
+        placeholder="Enter radius of the circle"
+        onChange={changeRadius}
+      />
+      <Link to={"/visualization"} target="_blank">
+        <button
+          onClick={() => {
+            localStorage.setItem("gpsDeviceCenters", gpsDeviceCenters);
+            localStorage.setItem("radius", radius);
+          }}
+        >
+          Submit
+        </button>
+      </Link>
     </>
   );
 }
