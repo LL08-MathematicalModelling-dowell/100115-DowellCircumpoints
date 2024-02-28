@@ -30,7 +30,7 @@ export default function Form() {
             <Select
               id={"dataType"}
               label={"Type of data"}
-              options={["--select", "Cartesian Coordinate", "Geocoordinates"]}
+              options={["--select--", "Cartesian Coordinate", "Geocoordinates"]}
             />
 
             <Select
@@ -79,7 +79,9 @@ export default function Form() {
               required={true}
             />
 
-            <button type="submit">Calculate</button>
+            <button className="button" type="submit">
+              Calculate
+            </button>
           </form>
         </FormProvider>
       </Overlay>

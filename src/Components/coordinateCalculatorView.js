@@ -36,65 +36,84 @@ export default function CoordinateCalculatorView({ CalculatedValues }) {
 
   return (
     <>
-      <h3>Input</h3>
+      <div className="container output-container">
+        <h3>Input</h3>
 
-      {shapeType === "squares" ? (
-        <div>
-          Side Length of squares: <b>{squareSideLength}</b>
+        {shapeType === "squares" ? (
+          <div className="shape-info">
+            Side Length of squares: <b>{squareSideLength}</b>
+          </div>
+        ) : (
+          <div className="shape-info">
+            Radius of circles: <b>{circleRadius}</b>
+          </div>
+        )}
+        <div className="canvas-info">
+          Canvas Length: <b>{length}</b>
         </div>
-      ) : (
-        <div>
-          Radius of circles: <b>{circleRadius}</b>
+        <div className="canvas-info">
+          Canvas Width: <b>{width}</b>
         </div>
-      )}
-      <div>
-        Canvas Length: <b>{length}</b>
-      </div>
-      <div>
-        Canvas Width: <b>{width}</b>
+
+        <div className="coordinates">
+          Number of {shapeType} that can fit inside the canvas:
+          <b>{` ${numberOfCircles || numberOfSquares}`}</b>
+        </div>
+        <div className="button-holder">
+          <button
+            className="button showTable"
+            onClick={() => setShowTable(!showTable)}
+          >
+            {showTable ? "Hide Table" : "Show Table"}
+          </button>
+        </div>
       </div>
 
-      <div>
-        Number of {shapeType} that can fit inside the canvas:
-        <b>{` ${numberOfCircles || numberOfSquares}`}</b>
-      </div>
-
-      <h3>{dataType} Coordinates</h3>
-
-      <button onClick={() => setShowTable(!showTable)}>
-        {showTable ? "Hide Table" : "Show Table"}
-      </button>
       {showTable && (
         <>
+          <h3>{dataType} Coordinates</h3>
           <Table data={center_coordinates || square_coordinates} />
-          <button onClick={convertCoordinate}>Convert</button>
+          <button className="button" onClick={convertCoordinate}>
+            Convert
+          </button>
           {convert && <ConvertedCoordinateTable />}
         </>
       )}
-      <label>Centers of the GPS Devices</label>
-      <input
-        id=""
-        className=""
-        placeholder="e.g., [[0,0], [1,2], [3,4]]"
-        onChange={handleChange}
-      />
-      <label>Radius</label>
-      <input
-        id=""
-        className=""
-        placeholder="Enter radius of the circle"
-        onChange={changeRadius}
-      />
-      <Link to={"/visualization"} target="_blank">
-        <button
-          onClick={() => {
-            localStorage.setItem("gpsDeviceCenters", gpsDeviceCenters);
-            localStorage.setItem("radius", radius);
-          }}
-        >
-          Submit
-        </button>
-      </Link>
+      <div className="form-section">
+        <div>
+          <div>
+            <label>Centers of the GPS Devices</label>
+            <input
+              id=""
+              className=""
+              style={{ width: "20rem" }}
+              placeholder="e.g., [[0,0], [1,2], [3,4]]"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Radius</label>
+            <input
+              id=""
+              className=""
+              style={{ width: "20rem" }}
+              placeholder="Enter radius of the circle"
+              onChange={changeRadius}
+            />
+          </div>
+          <Link to={"/visualization"} target="_blank">
+            <button
+              className="button"
+              onClick={() => {
+                localStorage.setItem("gpsDeviceCenters", gpsDeviceCenters);
+                localStorage.setItem("radius", radius);
+              }}
+            >
+              Submit
+            </button>
+          </Link>
+        </div>
+      </div>
     </>
   );
 }

@@ -29,7 +29,7 @@ export default function useVisualizationData(
       circum_points_dict.push([
         [key],
         data["circum_points_dict"][key].map((val) => {
-          return { x: val[0], y: val[1] };
+          return { x: val[0].toFixed(4), y: val[1].toFixed(4) };
         }),
       ]);
     });

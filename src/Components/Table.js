@@ -49,7 +49,9 @@ export default function Table({ data }) {
         <tbody>
           {row.map((row, rowIndex) => (
             <tr key={rowIndex}>
-              <th className="th">{row}</th>
+              <th className="th" style={{ color: "black" }}>
+                {row}
+              </th>
               {column.map((column, columnIndex) => (
                 <td className="td" key={columnIndex}>
                   {formData?.shapeType === "squares"
