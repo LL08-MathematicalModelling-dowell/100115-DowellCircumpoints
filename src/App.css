@@ -1,11 +1,13 @@
 .App {
   margin: 20px;
+  /* outline: 1px solid black; */
 }
 
 /*General styles*/
 h2 {
   margin-top: 0;
   text-align: center;
+  margin-bottom: 30px;
 }
 
 h3 {
@@ -141,15 +143,17 @@ form {
 /*Coordinate Calculator View */
 
 .container {
+  /* width: 100%; */
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
+  outline: 1px solid black;
 }
 
 .output-container {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   max-width: 370px;
 }
 
@@ -178,8 +182,10 @@ form {
 
 .form-section {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+  
 }
 
