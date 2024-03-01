@@ -7,7 +7,7 @@ export default function useVisualizationData(
   radius
 ) {
   const payload = {
-    radius: parseInt(radius),
+    radius,
     gps_device_centers: JSON.parse(gpsDeviceCenters),
   };
 
@@ -29,7 +29,7 @@ export default function useVisualizationData(
       circum_points_dict.push([
         [key],
         data["circum_points_dict"][key].map((val) => {
-          return { x: val[0].toFixed(4), y: val[1].toFixed(4) };
+          return { x: parseFloat(val[0]).toFixed(4), y: parseFloat(val[1]).toFixed(4) };
         }),
       ]);
     });

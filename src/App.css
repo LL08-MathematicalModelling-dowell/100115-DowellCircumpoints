@@ -2,27 +2,48 @@
   margin: 20px;
 }
 
-.coordinateForm,
-.coordinateForm > div {
-  display: flex;
-  flex-direction: column;
+/*General styles*/
+h2 {
+  margin-top: 0;
+  text-align: center;
 }
 
-select {
+h3 {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-input {
+input,
+select {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   margin-bottom: 10px;
   box-sizing: border-box;
+
 }
 
 label {
   display: block;
   margin-bottom: 5px;
 }
+
+tbody {
+  color: black;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  text-align: center;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/*Overlay Component*/
 
 .clip-loader-container {
   display: flex;
@@ -42,23 +63,22 @@ label {
   height: 90vh;
 }
 
+/*Table*/
 .table {
-  width: 100%;
   border-collapse: collapse;
   text-align: center;
   border-radius: 8px;
-  /* margin-bottom: 2rem; */
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
     0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11);
+}
+
+.table-container > .table {
+  width: 100%;
 }
 
 .thead {
   position: sticky;
   z-index: 100;
-}
-
-.trhead {
-  background: black;
 }
 
 .th,
@@ -76,43 +96,90 @@ label {
   padding: 0 1rem;
 }
 
-.th {
-  position: sticky;
-  font-weight: 500;
-  padding: 12px;
-  font-size: 14px;
-}
-
 .td {
   min-width: 5px;
-  max-width: 30rem;
+  max-width: 23rem;
   padding: 10px;
   font-size: 14px;
 }
 
 .cord-table {
-  min-width: 27rem;
+  min-width: 20rem;
 }
 
 .table-container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
   margin: 20px;
   width: auto;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
     0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11);
 }
 
-.data-visualization-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 2rem;
+.trhead th {
+  background-color: #3b7e3e;
 }
 
-.data-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 85vw;
-  height: auto;
+.th {
+  position: stick;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  padding: 12px;
 }
+
+.custom-scrollable-div {
+  min-width: 100px;
+  max-height: 23rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  padding-right: 0;
+}
+
+/*Coordinate Calculator View */
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.output-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 370px;
+}
+
+.squareSideLengthContainer, .circleRadiusContainer {
+  margin-top: 20px;
+}
+
+.canvasDimensionsContainer {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+
+.shape-info,
+.canvas-info,
+.coordinates {
+  margin-bottom: 10px;
+}
+
+.shape-info b,
+.canvas-info b,
+.coordinates b {
+  font-weight: bold;
+}
+
+.form-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+

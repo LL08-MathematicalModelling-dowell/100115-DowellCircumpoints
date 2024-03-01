@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useVisualizationData from "../hooks/useVisualizationData";
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
-import Chart from "./components/Chart";
+import ScatterChart from "./components/ScatterChart";
 import DataTable from "./components/DataTable";
 import "./styles/styles.css";
 
@@ -19,6 +19,7 @@ export default function DataVisualization() {
     radius
   );
 
+  const gpsCenters = data[0].map((val)=>val[0])
   const circumPointsArray = data[0].map((val) => val[1]);
   const gpsDeviceCount = data[1];
   const totalPointsOfIntersection = data[2];
@@ -71,7 +72,7 @@ export default function DataVisualization() {
         <div className="chart-container">
           <h3>Chart</h3>
           <div className="data-visualization-container">
-            <Chart data={circumPointsArray} />
+            <ScatterChart center={gpsCenters} data={circumPointsArray} />
 
             <div className="data-table-container">
               <DataTable
