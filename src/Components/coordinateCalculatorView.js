@@ -1,16 +1,13 @@
 import React, { useContext, useState } from "react";
 import Table from "./Table";
 import ConvertedCoordinateTable from "./ConvertedCoordinateTable";
-import { Link } from "react-router-dom";
 import { FormContext } from "../Pages/Form";
+import { Link } from "react-router-dom";
 
 export default function CoordinateCalculatorView({ CalculatedValues }) {
   const formData = useContext(FormContext);
   const [showTable, setShowTable] = useState(false);
   const [convert, setConvert] = useState(false);
-
-  const [gpsDeviceCenters, setGpsDeviceCenters] = useState("");
-  const [radius, setRadius] = useState("");
 
   const { dataType, shapeType, circleRadius, squareSideLength, width, length } =
     formData;
@@ -26,17 +23,9 @@ export default function CoordinateCalculatorView({ CalculatedValues }) {
     setConvert(true);
   };
 
-  const handleChange = (e) => {
-    setGpsDeviceCenters(e.target.value);
-  };
-
-  const changeRadius = (e) => {
-    setRadius(e.target.value);
-  };
-
   return (
     <>
-      <div className="container output-container">
+      <div className="">
         <h3>Input</h3>
 
         {shapeType === "squares" ? (
@@ -79,41 +68,10 @@ export default function CoordinateCalculatorView({ CalculatedValues }) {
           {convert && <ConvertedCoordinateTable />}
         </>
       )}
-      <div className="form-section">
-        <div>
-          <div>
-            <label>Centers of the GPS Devices</label>
-            <input
-              id=""
-              className=""
-              style={{ width: "20rem" }}
-              placeholder="e.g., [[0,0], [1,2], [3,4]]"
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Radius</label>
-            <input
-              id=""
-              className=""
-              style={{ width: "20rem" }}
-              placeholder="Enter radius of the circle"
-              onChange={changeRadius}
-            />
-          </div>
-          <Link to={"/visualization"} target="_blank">
-            <button
-              className="button"
-              onClick={() => {
-                localStorage.setItem("gpsDeviceCenters", gpsDeviceCenters);
-                localStorage.setItem("radius", radius);
-              }}
-            >
-              Submit
-            </button>
-          </Link>
-        </div>
-      </div>
+      <Link to={"/gps-device-locator"}>
+      <button className="button">Go to Next Page</button>
+      </Link>
+     
     </>
   );
 }

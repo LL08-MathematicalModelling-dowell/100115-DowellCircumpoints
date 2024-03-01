@@ -4,6 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import Overlay from "../Components/Overlay";
 import Select from "../Components/Select";
 import Input from "../Components/Input";
+import "./styles/styles.css"
 
 export const FormContext = React.createContext();
 
@@ -79,9 +80,11 @@ export default function Form() {
               required={true}
             />
 
-            <button className="button" type="submit">
-              Calculate
-            </button>
+            <div className="form-button-holder">
+              <button className="button" type="submit">
+                Calculate
+              </button>
+            </div>
           </form>
         </FormProvider>
       </Overlay>

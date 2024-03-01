@@ -19,7 +19,7 @@ export default function DataVisualization() {
     radius
   );
 
-  const gpsCenters = data[0].map((val)=>val[0])
+  const gpsCenters = data[0].map((val) => val[0]);
   const circumPointsArray = data[0].map((val) => val[1]);
   const gpsDeviceCount = data[1];
   const totalPointsOfIntersection = data[2];
@@ -41,15 +41,14 @@ export default function DataVisualization() {
     <div className="container">
       <h2>Data Visualization</h2>
       <div className="button-holder">
-        <button
+        <input
           className={!showTable ? "active-button" : "button"}
+          value={showTable ? "Show Table" : "Hide Table"}
           onClick={ha}
-        >
-          {showTable ? "Show Table" : "Hide Table"}
-        </button>
-        <button className={showTable ? "active-button" : "button"} onClick={ha}>
-          {showTable ? "Hide Graph" : " Show Graph"}
-        </button>
+        />
+        <input className={showTable ? "active-button" : "button"} onClick={ha} value={showTable ? "Hide Graph" : " Show Graph"}/>
+          
+        
       </div>
       {!showTable && (
         <div className="coordinate-table-wrapper">
@@ -58,10 +57,12 @@ export default function DataVisualization() {
               <h3>Coordinate Tables</h3>
               <div className="coordinate-container">
                 {data[0].map((dataX) => (
-                  <DataTable
+                  <div>
+                    <DataTable
                     header={`GPS Center: ${dataX[0]}`}
                     data={dataX[1]}
                   />
+                    </div>
                 ))}
               </div>
             </div>
@@ -75,15 +76,24 @@ export default function DataVisualization() {
             <ScatterChart center={gpsCenters} data={circumPointsArray} />
 
             <div className="data-table-container">
-              <DataTable
-                header={"Points of Intersection"}
-                data={pointsOfIntersection}
-              />
-              <DataTable header={"GPS Devices Count"} data={gpsDeviceCount} />
-              <DataTable
-                header={"Total Points of Intersection"}
-                data={totalPointsOfIntersection}
-              />
+              
+              <div className="data-table-wrapper">
+                <DataTable
+                  header={"Points of Intersection"}
+                  data={pointsOfIntersection}
+                />
+              </div>
+              
+              <div className="data-table-wrapper">
+                <DataTable header={"GPS Devices Count"} data={gpsDeviceCount} />
+              </div>
+
+              <div className="data-table-wrapper">
+                <DataTable
+                  header={"Total Points of Intersection"}
+                  data={totalPointsOfIntersection}
+                />
+              </div>
             </div>
           </div>
         </div>
