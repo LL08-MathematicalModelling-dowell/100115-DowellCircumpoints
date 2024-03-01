@@ -1,6 +1,5 @@
 .App {
   margin: 20px;
-  /* outline: 1px solid black; */
 }
 
 /*General styles*/
@@ -143,17 +142,12 @@ form {
 /*Coordinate Calculator View */
 
 .container {
-  /* width: 100%; */
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  outline: 1px solid black;
 }
 
 .output-container {
-  /* display: flex; */
-  flex-direction: column;
-  /* justify-content: center; */
   max-width: 370px;
 }
 
