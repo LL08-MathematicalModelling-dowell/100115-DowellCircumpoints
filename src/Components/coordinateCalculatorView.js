@@ -68,10 +68,9 @@ export default function CoordinateCalculatorView({ CalculatedValues }) {
           {convert && <ConvertedCoordinateTable />}
         </>
       )}
-      <Link to={"/gps-device-locator"}>
-      <button className="button">Go to Next Page</button>
+      <Link to={"/gps-device-locator"} target="_blank">
+        <button className="button">Go to Next Page</button>
       </Link>
-     
     </>
   );
 }
