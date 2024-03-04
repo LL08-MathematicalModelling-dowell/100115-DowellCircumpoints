@@ -5,13 +5,13 @@ import { FormContext } from "../Pages/Form";
 
 export default function useConvertedCoordinateData() {
   const formData = useContext(FormContext);
-  const { shapeType, width, length } = formData;
+  const { shapeType, width, length, squareSideLength, circleRadius } = formData;
 
   const params = new URLSearchParams({
     type: shapeType,
     width,
     length,
-    value: 0.5,
+    value: squareSideLength || circleRadius,
   });
 
   const url = `${ConvertCoordinates_URL}/?${params}`;
