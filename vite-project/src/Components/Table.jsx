@@ -25,13 +25,11 @@ export default function Table({ data }) {
       });
     }
     header = Array.from(set);
-    return formData.shapeType === "squares"
-      ? header
-      : header.sort((a, b) => a - b);
+    return header
   };
 
-  const row = getValue(0);
-  const column = getValue(1);
+  const row = getValue(0).sort();
+  const column = getValue(1).sort((a, b)=>b-a);
 
   return (
     <div className="table-container">
@@ -39,31 +37,31 @@ export default function Table({ data }) {
         <thead className="thead">
           <tr className="trhead">
             <th className="th"></th>
-            {column.map((elem, index) => (
+            {row.map((x, index) => (
               <th className="th" key={index}>
-                {elem}
+                {x}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {row.map((row, rowIndex) => (
-            <tr key={rowIndex}>
+          {column.map((y, yIndex) => (
+            <tr key={yIndex}>
               <th className="th" style={{ color: "black" }}>
-                {row}
+                {y}
               </th>
-              {column.map((column, columnIndex) => (
-                <td className="td" key={columnIndex}>
+              {row.map((x, xIndex) => (
+                <td className="td" key={xIndex}>
                   {formData?.shapeType === "squares"
                     ? squareCoordinateList.some(
-                        (array) => array[0] === row && array[1] === column
+                        (array) => array[0] === x && array[1] === y
                       )
-                      ? `${row}, ${column}`
+                      ? `${x}, ${y}`
                       : "-"
                     : data.some(
-                        (array) => array[0] === row && array[1] === column
+                        (array) => array[0] === x && array[1] === y
                       )
-                    ? `${row}, ${column}`
+                    ? `${x}, ${y}`
                     : "-"}
                 </td>
               ))}
