@@ -50,9 +50,10 @@ export default function ScatterChart({ center, data }) {
           pinch: {
             enabled: true,
           },
-          pan: {
-            enabled: true,
-          },
+          mode: "xy",
+        },
+        pan: {
+          enabled: true,
           mode: "xy",
         },
       },
@@ -98,6 +99,10 @@ export default function ScatterChart({ center, data }) {
             height={500}
           />
         </div>
+        <button className="button reset-button" onClick={handleZoomIn}>
+          +
+        </button>
+        <button className="button reset-button">-</button>
         <button className="button reset-button" onClick={handleResetZoom}>
           Reset Zoom
         </button>

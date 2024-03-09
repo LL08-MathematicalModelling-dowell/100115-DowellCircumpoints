@@ -23,7 +23,6 @@ select {
   border-radius: 4px;
   margin-bottom: 10px;
   box-sizing: border-box;
-
 }
 
 label {
@@ -122,7 +121,7 @@ form {
 }
 
 .th {
-  position: stick;
+  position: sticky;
   font-weight: bold;
   color: white;
   text-align: center;
@@ -151,7 +150,8 @@ form {
   max-width: 370px;
 }
 
-.squareSideLengthContainer, .circleRadiusContainer {
+.squareSideLengthContainer,
+.circleRadiusContainer {
   margin-top: 20px;
 }
 
@@ -180,5 +180,4 @@ form {
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  
 }

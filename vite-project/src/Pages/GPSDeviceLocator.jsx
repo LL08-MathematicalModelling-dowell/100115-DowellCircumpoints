@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Help from "../Components/help/help";
 
 export default function GPSDeviceLocator() {
   const [gpsDeviceCenters, setGpsDeviceCenters] = useState("");
@@ -12,6 +13,9 @@ export default function GPSDeviceLocator() {
   const changeRadius = (e) => {
     setRadius(e.target.value);
   };
+
+  const [showHelpSection, setShowHelpSection] = useState(false);
+
   return (
     <div className="form-section">
       <h3>GPS Device Locator</h3>
@@ -58,6 +62,21 @@ export default function GPSDeviceLocator() {
           </Link>
         </div>
       </div>
+      <button
+        style={{ position: "fixed", top: "3%", right: "2%" }}
+        onClick={() => {
+          setShowHelpSection(!showHelpSection);
+        }}
+      >
+        Help
+      </button>
+      {showHelpSection && (
+        <Help
+          isOpen={showHelpSection}
+          setIsOpen={setShowHelpSection}
+          helpType={"gpsDeviceLocator"}
+        />
+      )}
     </div>
   );
 }
