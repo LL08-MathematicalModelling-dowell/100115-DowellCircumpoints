@@ -107,11 +107,27 @@ export default function Form() {
         </Overlay>
       </FormContext.Provider>
       {showHelpSection && (
-        <Help
-          isOpen={showHelpSection}
-          setIsOpen={setShowHelpSection}
-          helpType={"coordinateCalculator"}
-        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            position: "fixed",
+            top: "0",
+            right: "0",
+            width: "20rem",
+            height: "100vh",
+            background: "#f9f9f9",
+            transition: "transform 0.5s ease-in-out",
+            boxShadow: "0 5px 4px rgba(0, 0, 0, 0.3)",
+            transform: showHelpSection ? "translateX(0)" : "translateX(20rem)",
+          }}
+        >
+          <Help
+            isOpen={showHelpSection}
+            setIsOpen={setShowHelpSection}
+            helpType={"coordinateCalculator"}
+          />
+        </div>
       )}
     </div>
   );
