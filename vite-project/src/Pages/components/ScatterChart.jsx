@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { Scatter } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
@@ -34,6 +34,18 @@ export default function ScatterChart({ center, data }) {
     });
   }
 
+  const handleZoomIn = () => {
+    if (chartRef && chartRef.current) {
+      chartRef.current.zoom(1.1);
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (chartRef && chartRef.current) {
+      chartRef.current.zoom(0.9);
+    }
+  };
+
   const handleResetZoom = () => {
     if (chartRef && chartRef.current) {
       chartRef.current.resetZoom();
@@ -44,12 +56,6 @@ export default function ScatterChart({ center, data }) {
     plugins: {
       zoom: {
         zoom: {
-          wheel: {
-            enabled: true,
-          },
-          pinch: {
-            enabled: true,
-          },
           mode: "xy",
         },
         pan: {
@@ -102,7 +108,9 @@ export default function ScatterChart({ center, data }) {
         <button className="button reset-button" onClick={handleZoomIn}>
           +
         </button>
-        <button className="button reset-button">-</button>
+        <button className="button reset-button" onClick={handleZoomOut}>
+          -
+        </button>
         <button className="button reset-button" onClick={handleResetZoom}>
           Reset Zoom
         </button>
