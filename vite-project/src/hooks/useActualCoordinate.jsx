@@ -10,7 +10,7 @@ export default function useActualCoordinate(formData) {
           side_length: formData?.squareSideLength,
         }
       : {
-          radius: parseInt(formData?.circleRadius),
+          radius: parseFloat(formData?.circleRadius),
           length: parseInt(formData?.length),
           width: parseInt(formData?.width),
         }),
