@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import HelpIcon from "../../Components/help/components/helpIcon";
-import { About } from "../../Components/help/help";
+import About from "../../Components/About";
 import Papa from "papaparse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import Popup from "../../Components/PopUp";
 
 export default function GPSDeviceLocator() {
   const [gpsDeviceCenters, setGpsDeviceCenters] = useState("");
   const [radius, setRadius] = useState("");
   const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [fileName, setFileName] = useState("");
 
   const changeGPSDeviceCenters = (e) => {
     setGpsDeviceCenters(e.target.value);
@@ -33,27 +35,16 @@ export default function GPSDeviceLocator() {
         });
 
         setGpsDeviceCenters(JSON.stringify(rowsArray));
-        console.log(JSON.stringify(rowsArray));
       },
     });
     setIsFileUploaded(!isFileUploaded);
+    setFileName(event.target.files[0].name);
   };
 
   return (
-    <div
-      className="form-section"
-      style={{
-        maxWidth: "auto",
-        minWidth: "40%",
-        minHeight: "90%",
-        backgroundColor: "white",
-        borderRadius: "3%",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-        // outline: "1px solid black",
-        // paddingTop: "60px",
-      }}
-    >
-      <About />
+    <div className="form-section coordinate-table-card">
+      {isFileUploaded && <Popup message={"FileSuccesfully uploaded"} />}
+      <About about={"GpsDeviceLocator"} />
       <h3
         style={{
           fontSize: "3rem",
@@ -61,41 +52,18 @@ export default function GPSDeviceLocator() {
       >
         GPS Device Locator
       </h3>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "1rem",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            // justifyContent:"center",
-            // marginBottom: "1rem",
-          }}
-        >
-          <label style={{ marginRight: "1rem" }}>
-            Centers of the GPS Devices
-          </label>
-          <HelpIcon helpType={"gpsDeviceLocator"} />
+      <div className="locator-input-holder">
+        <div className="centers-label-holder">
+          <label>Centers of the GPS Devices</label>
+          <HelpIcon helpType={"gpsDeviceLocatorCenter"} />
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ marginRight: "1rem" }}>
+        <div className="center-input-holder">
+          <div>
             <input
               id=""
               className="input-container"
               placeholder={
-                isFileUploaded ? "File Uploaded" : "e.g., [[0,0], [1,2], [3,4]]"
+                isFileUploaded ? fileName : "e.g., [[0,0], [1,2], [3,4]]"
               }
               onChange={changeGPSDeviceCenters}
               required
@@ -124,16 +92,9 @@ export default function GPSDeviceLocator() {
           flexDirection: "column",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: "1rem",
-          }}
-        >
-          <label style={{ marginRight: "1rem" }}>Radius</label>
-          <HelpIcon helpType={""} />
+        <div className="centers-label-holder">
+          <label>Radius</label>
+          <HelpIcon helpType={"gpsDeviceLocatorRadius"} />
         </div>
 
         <input
@@ -157,7 +118,6 @@ export default function GPSDeviceLocator() {
           </button>
         </Link>
       </div>
-      {/* </div> */}
     </div>
   );
 }

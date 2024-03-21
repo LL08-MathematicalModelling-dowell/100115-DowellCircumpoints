@@ -1,7 +1,7 @@
-import { Yon } from "../help";
 import CanvasDimensionHelp from "../components/canvasDimensionHelp";
 import DataTypeHelp from "../components/dataTypeHelp";
 import ShapeTypeHelp from "../components/shapeTypeHelp";
+import Description from "../components/description";
 
 export const descriptions = {
   canvasDimension: {
@@ -37,15 +37,27 @@ export const descriptions = {
 export const helps = {
   canvasDimension: <CanvasDimensionHelp />,
   shapeType: <ShapeTypeHelp />,
-  square: <Yon description={descriptions.shapeType.description.square} />,
-  radius: <Yon description={descriptions.shapeType.description.circle} />,
+  square: (
+    <Description description={descriptions.shapeType.description.square} />
+  ),
+  radius: (
+    <Description description={descriptions.shapeType.description.circle} />
+  ),
   dataType: <DataTypeHelp />,
-  gpsDeviceLocator: (
+  gpsDeviceLocatorCenter: (
     <div className="descriptions-holder">
       The Centers of GPS Devices input consists of a list of (x, y) coordinate
       pairs that serve as the center points for each circle in the GPS Device
       Locator. These coordinates define the location around which the circles
-      are drawn on the map.{" "}
+      are drawn on the map.
+    </div>
+  ),
+  gpsDeviceLocatorRadius: (
+    <div className="descriptions-holder">
+      This parameter specifies the radius value to be used while plotting the
+      circles around the center coordinates Adjusting the radius allows you to
+      control the size and reach of the circles, influencing the precision and
+      scope of the spatial analysis.
     </div>
   ),
 };

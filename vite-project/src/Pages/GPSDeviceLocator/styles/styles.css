@@ -193,3 +193,29 @@
   flex-direction: column;
   align-items: center;
 }
+
+.locator-input-holder {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.center-input-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-input-holder > div {
+  margin-right: 1rem;
+}
+
+.centers-label-holder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.centers-label-holder > label {
+  margin-right: 1rem;
+}

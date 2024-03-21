@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import Overlay from "../../Components/overlay/Overlay";
 import Select from "../../Components/Select";
 import Input from "../../Components/Input";
-import { About } from "../../Components/help/help";
+import About from "../../Components/About";
 import "./util/styles.css";
 
 export const FormContext = React.createContext();
@@ -27,7 +27,7 @@ export default function Form() {
   return (
     <div className="card-container">
       <FormContext.Provider value={input}>
-        <About />
+        <About about={"CoordinateCalculator"} />
         <Overlay>
           <FormProvider {...methods}>
             <h3>Coordinate Calculator</h3>
