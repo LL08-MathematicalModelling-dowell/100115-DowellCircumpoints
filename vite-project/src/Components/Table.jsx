@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FormContext } from "../Pages/Form";
+import { FormContext } from "../Pages/Coordinate Calculator/Form";
 
 export default function Table({ data }) {
   const formData = useContext(FormContext);
@@ -25,11 +25,11 @@ export default function Table({ data }) {
       });
     }
     header = Array.from(set);
-    return header
+    return header;
   };
 
   const row = getValue(0).sort();
-  const column = getValue(1).sort((a, b)=>b-a);
+  const column = getValue(1).sort((a, b) => b - a);
 
   return (
     <div className="table-container">
@@ -58,9 +58,7 @@ export default function Table({ data }) {
                       )
                       ? `${x}, ${y}`
                       : "-"
-                    : data.some(
-                        (array) => array[0] === x && array[1] === y
-                      )
+                    : data.some((array) => array[0] === x && array[1] === y)
                     ? `${x}, ${y}`
                     : "-"}
                 </td>

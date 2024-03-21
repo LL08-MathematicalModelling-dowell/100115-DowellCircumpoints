@@ -1,17 +1,22 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import HelpIcon from "./help/components/helpIcon";
 
 export default function Select({
   id,
   className,
   label,
+  helpType,
   options,
   changeHandler,
 }) {
   const { register } = useFormContext();
   return (
     <div className={className}>
-      <label>{label}</label>
+      <div className="input-label-holder">
+        <label>{label}</label>
+        <HelpIcon helpType={helpType} />
+      </div>
       <select
         {...register(id, {
           required: { value: true, message: "required" },

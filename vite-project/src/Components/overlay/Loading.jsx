@@ -1,6 +1,6 @@
 import React from "react";
 import { ClipLoader } from "react-spinners";
-import "../App.css";
+import "../../App.css";
 
 export default function Loading(isLoading) {
   return (

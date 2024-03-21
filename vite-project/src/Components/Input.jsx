@@ -1,10 +1,12 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import HelpIcon from "./help/components/helpIcon";
 
 export default function Input({
   id,
   className,
-  label = "",
+  label = null,
+  helpType,
   placeholder,
   type,
   required,
@@ -12,22 +14,21 @@ export default function Input({
   const { register } = useFormContext();
 
   return (
-    <>
-      <div className={className}>
-        <div style={{ display: "flex" }}>
-          <label>{label}</label>
-        </div>
-        <input
-          id={id}
-          type={type}
-          placeholder={placeholder}
-          {...(required
-            ? register(id, {
-                required: { value: true, message: "required" },
-              })
-            : {})}
-        />
+    <div className={className}>
+      <div className="input-label-holder">
+        <label>{label}</label>
+        {label && <HelpIcon helpType={helpType} />}
       </div>
-    </>
+      <input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        {...(required
+          ? register(id, {
+              required: { value: true, message: "required" },
+            })
+          : {})}
+      />
+    </div>
   );
 }

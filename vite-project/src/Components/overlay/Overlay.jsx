@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import CoordinateCalculatorView from "./coordinateCalculatorView";
-import useActualCoordinate from "../hooks/useActualCoordinate";
+import CoordinateCalculatorView from "../../Pages/Coordinate Calculator/components/coordinateCalculatorView";
+import useActualCoordinate from "../../hooks/useActualCoordinate";
 import Loading from "./Loading";
 import Error from "./Error";
-import "../App.css";
-import { FormContext } from "../Pages/Form";
+import "../../App.css";
+import { FormContext } from "../../Pages/Coordinate Calculator/Form";
 
 export default function Overlay({ children }) {
   const formData = useContext(FormContext);

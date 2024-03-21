@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import useConvertedCoordinateData from "../hooks/useConvertedCoordinateData";
-import Table from "./Table";
-import Loading from "./Loading";
-import Error from "./Error";
-import { FormContext } from "../Pages/Form";
+import useConvertedCoordinateData from "../../../hooks/useConvertedCoordinateData";
+import Table from "../../../Components/Table";
+import Loading from "../../../Components/overlay/Loading";
+import Error from "../../../Components/overlay/Error";
+import { FormContext } from "../Form";
+import "../util/styles.css";
 
 export default function ConvertedCoordinateTable() {
   const formData = useContext(FormContext);
@@ -20,7 +21,7 @@ export default function ConvertedCoordinateTable() {
     <>
       {data && (
         <>
-          <h3>{data.message}</h3>
+          <h3>Geocoordinate Coordinate</h3>
           <Table data={data?.response?.converted_coordinates} />
         </>
       )}
