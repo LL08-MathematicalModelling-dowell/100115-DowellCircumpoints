@@ -1,5 +1,7 @@
 .App {
-  margin: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 7em 0 0 0;
 }
 
 /*General styles*/
@@ -11,7 +13,11 @@ h2 {
 
 h3 {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px;
+  font-family: "Fauna One", serif;
+  font-weight: 400;
+  font-size: 2rem;
+  font-size: normal;
 }
 
 input,
@@ -21,8 +27,24 @@ select {
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 10px;
   box-sizing: border-box;
+}
+
+input {
+  min-height: 3rem;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+select {
+  min-height: 3rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+input:focus,
+select:hover {
+  outline: none;
 }
 
 label {
@@ -39,8 +61,8 @@ tbody {
 }
 
 form {
-  max-width: 400px;
-  margin: 0 auto;
+  width: auto;
+  margin: 0 2em;
 }
 
 /*Overlay Component*/
@@ -112,12 +134,12 @@ form {
   scrollbar-width: thin;
   margin: 20px;
   width: auto;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
-    0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11);
+  max-width: 105rem;
 }
 
 .trhead th {
-  background-color: #3b7e3e;
+  background-color: gray;
+  color: white;
 }
 
 .th {
@@ -138,46 +160,41 @@ form {
   padding-right: 0;
 }
 
-/*Coordinate Calculator View */
-
-.container {
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.output-container {
-  max-width: 370px;
-}
-
-.squareSideLengthContainer,
-.circleRadiusContainer {
-  margin-top: 20px;
-}
-
-.canvasDimensionsContainer {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
-}
-
-.shape-info,
-.canvas-info,
-.coordinates {
-  margin-bottom: 10px;
-}
-
-.shape-info b,
-.canvas-info b,
-.coordinates b {
-  font-weight: bold;
-}
-
 .form-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+}
+
+/*nvaigation*/
+
+.nav-bar {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4.5rem;
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+  width: auto;
+  height: auto;
+}
+
+.menu-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 4.5rem;
+  margin: 0 2rem;
+  text-decoration: none;
 }
