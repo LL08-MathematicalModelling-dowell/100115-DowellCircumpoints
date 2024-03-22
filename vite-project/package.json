@@ -1,14 +1,7 @@
 {
-  "dependencies": {
-    "@fortawesome/free-regular-svg-icons": "^6.5.1",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0"
-  }
-}
-{
-  "name": "100115-dowellcircumpoints",
+  "name": "vite-project",
+  "homepage": "https://LL08-MathematicalModelling-dowell.github.io/100115-DowellCircumpoints",
   "private": true,
-  "homepage":"https://LL08-MathematicalModelling-dowell.github.io/100115-DowellCircumpoints",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -20,8 +13,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.4.2",
     "chartjs-plugin-zoom": "^2.0.1",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
