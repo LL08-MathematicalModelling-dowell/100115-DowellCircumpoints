@@ -6,14 +6,15 @@ export default function About({ about }) {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <div className="about-section-container">
-      <div
-        className="about-section"
+      <button
+        className="button"
         onClick={() => {
           setIsClicked(!isClicked);
         }}
       >
-        <div>About the App</div>
-      </div>
+        About the App
+      </button>
+
       {isClicked && (
         <div className="about-description-holder">{abouts[about]}</div>
       )}
