@@ -6,6 +6,7 @@ import Select from "../../Components/Select";
 import Input from "../../Components/Input";
 import About from "../../Components/About";
 import "./util/styles.css";
+import HelpIcon from "../../Components/help/components/helpIcon";
 
 export const FormContext = React.createContext();
 
@@ -68,31 +69,47 @@ export default function Form() {
               </div>
 
               {shapeType === "squares" && (
-                <div className="form-input-holder">
-                  <Input
-                    id={"squareSideLength"}
-                    className="input-container"
-                    label={"Side Length of the Square"}
-                    helpType={"square"}
-                    type={"number"}
-                    placeholder={"Enter side length: e.g. 2"}
-                    required={true}
-                  />
-                </div>
+                <>
+                  <div className="form-input-holder">
+                    <div className="dimension-shape">
+                      <label>Dimension Shape</label>
+                      <HelpIcon helpType={"dimensionShape"} />
+                    </div>
+                    <div style={{ marginLeft: "2rem", minWidth: "29rem" }}>
+                      <Input
+                        id={"squareSideLength"}
+                        className=""
+                        label={"Side Length of the Square"}
+                        helpType={"square"}
+                        type={"number"}
+                        placeholder={"Enter side length: e.g. 2"}
+                        required={true}
+                      />
+                    </div>
+                  </div>
+                </>
               )}
 
               {shapeType === "circles" && (
-                <div className="form-input-holder">
-                  <Input
-                    id={"circleRadius"}
-                    className="input-container"
-                    label={"Radius of the Circle"}
-                    helpType={"radius"}
-                    type={"number"}
-                    placeholder={"Enter circle radius"}
-                    required={true}
-                  />
-                </div>
+                <>
+                  <div className="form-input-holder">
+                    <div className="dimension-shape">
+                      <label>Dimension Shape</label>
+                      <HelpIcon helpType={"dimensionShape"} />
+                    </div>
+                    <div style={{ marginLeft: "2rem", minWidth: "29rem" }}>
+                      <Input
+                        id={"circleRadius"}
+                        className=""
+                        label={"Radius of the Circle"}
+                        helpType={"radius"}
+                        type={"number"}
+                        placeholder={"Enter circle radius"}
+                        required={true}
+                      />
+                    </div>
+                  </div>
+                </>
               )}
 
               <div className="form-input-holder">

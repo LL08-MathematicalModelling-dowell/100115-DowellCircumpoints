@@ -37,8 +37,17 @@
   margin-bottom: 1rem;
 }
 
-.input-label-holder > label {
+.input-label-holder > label,
+.dimension-shape > label {
   margin-right: 1rem;
+}
+
+.dimension-shape {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 31rem;
+  margin: 0 1rem 0 1rem;
 }
 
 /*coordinateCalculator*/
