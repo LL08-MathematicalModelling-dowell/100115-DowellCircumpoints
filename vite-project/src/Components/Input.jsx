@@ -23,6 +23,7 @@ export default function Input({
         id={id}
         type={type}
         placeholder={placeholder}
+        min={"0"}
         {...(required
           ? register(id, {
               required: { value: true, message: "required" },

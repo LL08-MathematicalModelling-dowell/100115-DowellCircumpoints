@@ -15,7 +15,7 @@ export const descriptions = {
     title: "Type of shape",
     description: {
       general:
-        "This option allows you to choose between squares and circles, determining the shape you want to fit inside the canvas.\nThis selection guides the calculations and visualizations provided by our app, ensuring that the results are tailored to the shape you've chosen.\nThis parameter determines the size of the shapes and affects their placement and spacing within the canvas. By adjusting this value, you can control the size and density of the squares/ circles within your layout.\n",
+        "This option allows you to choose between squares and circles, determining the shape you want to fit inside the canvas.\nThis selection guides the calculations and visualizations provided by our app, ensuring that the results are tailored to the shape you've chosen.",
       square:
         "Length of the side of the squares that are to be inscribed in the canvas",
       circle: "Radius of the circles that are to be inscribed in the canvas",
@@ -37,6 +37,13 @@ export const descriptions = {
 export const helps = {
   canvasDimension: <CanvasDimensionHelp />,
   shapeType: <ShapeTypeHelp />,
+  dimensionShape: (
+    <Description
+      description={
+        "This parameter determines the size of the shapes and affects their placement and spacing within the canvas. By adjusting this value, you can control the size and density of the squares/ circles within your layout."
+      }
+    />
+  ),
   square: (
     <Description description={descriptions.shapeType.description.square} />
   ),

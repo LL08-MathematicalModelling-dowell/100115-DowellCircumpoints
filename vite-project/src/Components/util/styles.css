@@ -1,20 +1,27 @@
 .about-section-container {
   position: absolute;
-  top: 15%;
+  top: 12%;
   right: 0;
-  width: 30rem;
+  max-width: 30rem;
+}
+
+.about-section-container > .button {
+  width: 19rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .about-section {
   min-height: 5rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: gray;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
   font-family: "Fauna One", serif;
   font-weight: 400;
   font-size: 1.5rem;
   font-style: normal;
+  text-align: center;
   color: white;
   padding-left: 30px;
   border-radius: 10px 0 0 10px;
@@ -22,10 +29,15 @@
 }
 
 .about-description-holder {
+  position: inherit;
   height: auto;
   background-color: white;
   padding: 2rem;
   text-align: justify;
+  max-width: 17rem;
+  max-height: 30rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 .popup-card {
