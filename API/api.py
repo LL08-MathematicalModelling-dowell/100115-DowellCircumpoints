@@ -9,6 +9,7 @@ import numpy as np
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import *
+from geopy.distance import geodesic
 
 
 #Inscribing Squares API
@@ -185,9 +186,8 @@ class convert_coordinates_api(APIView):
 
         if not serializer.is_valid():
             return Response({
-                "success": False,
+                "success": "false",
                 "message": "Posting wrong data to API",
-                
                 "error": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -216,4 +216,52 @@ class convert_coordinates_api(APIView):
             "success": False,
             "message": "Invalid request type"
         }, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# check distance of a location from a reference point
+class check_distance(APIView):
+    def post(self, request):
+        try:
+            serializer = CheckDistanceSerializer(data = request.data)
+            
+            if serializer.is_valid():
+                radius = serializer.validated_data['radius']
+                reference_point = serializer.validated_data['reference_point']
+                locations = serializer.validated_data['locations']
+                unit = serializer.validated_data['unit']
+               
+                reference_location = [reference_point[0], reference_point[1]]
+               
+                results = []
+                for location in locations:
+                    current_location = [location[0], location[1]]
+                    distance = geodesic(reference_location, current_location).meters
+                    if unit == "kilometers":
+                        distance = distance/1000
+                        
+                    within_distance = distance <= radius
+                    results.append({
+                        'location': current_location,
+                        'distance': distance,
+                        'within_distance': within_distance
+                    })
+
+                return Response({"success":"true",
+                                 "message":"Location verification successful",
+                                 "results":{
+                                            "unit_of_measurement":unit,
+                                            "reference_point":reference_point,
+                                            "distance_data":results}
+                                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                                "success": "false",
+                                "message": "Posting wrong data to API",
+                                "error": serializer.errors
+                            }, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"sucess":"false",
+                             "message":"Unexpected error occured. Contact admin.",
+                             "error": str(e)},status=status.HTTP_400_BAD_REQUEST)        
     
