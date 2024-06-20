@@ -251,7 +251,8 @@ class check_distance(APIView):
                                  "results":{
                                             "unit_of_measurement":unit,
                                             "reference_point":reference_point,
-                                            "distance_data":results}
+                                            "distance_data":results},
+                                "event_id":get_event_id().get("event_id",{})
                                 }, status=status.HTTP_200_OK)
             else:
                 return Response({
