@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import generate_coordinates, generate_ordered_pairs, get_count, get_event_id, points_on_circle, points_on_circles_dict, find_intersection_points,convert_coordinates_df, inscribing_squares, haversine_distance
+from .utils import *
 from .dowellinscribing import circle_inscribing_api
 import json
 import time
@@ -9,8 +9,6 @@ import numpy as np
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import *
-from geopy.distance import geodesic
-
 
 #Inscribing Squares API
 @method_decorator(csrf_exempt, name='dispatch')
@@ -235,13 +233,13 @@ class check_distance(APIView):
                
                 results = []
                 for location in locations:
-                    current_location = [(location[0], location[1])]
+                    current_location = (location[0], location[1])
                     common_points = set(current_location).intersection(circumference_points)
                     
                     if len(common_points) !=0:
                         locations_on_circumference = common_points
                     else:
-                        locations_on_circumference = f"no location is excatly at {radius} {unit} distance"
+                        locations_on_circumference = f"no location on the circumference"
                     
                     distance = haversine_distance(reference_location[0], reference_location[1], location[0], location[1], unit)
                         
