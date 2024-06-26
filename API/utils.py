@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import itertools
 import math
+from math import radians, cos, sin, sqrt, atan2
 import json
 import requests
 
@@ -172,3 +173,23 @@ def convert_coordinates_df(df):
     # Apply conversion function to each cell in the DataFrame
     converted_df = df.applymap(convert_coordinates)
     return converted_df
+
+def haversine_distance(lat1, lon1, lat2, lon2, unit):
+    # Convert latitude and longitude from degrees to radians
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    lat2 = radians(lat2)
+    lon2 = radians(lon2)
+
+    # Haversine distance formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    radius_of_earth_km = 6371
+    distance_km = radius_of_earth_km * c
+
+    if unit == 'kilometers':
+        return distance_km
+    elif unit == 'meters':
+        return distance_km * 1000

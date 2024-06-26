@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .utils import generate_coordinates, generate_ordered_pairs, get_count, get_event_id, points_on_circle, points_on_circles_dict, find_intersection_points,convert_coordinates_df, inscribing_squares
+from .utils import generate_coordinates, generate_ordered_pairs, get_count, get_event_id, points_on_circle, points_on_circles_dict, find_intersection_points,convert_coordinates_df, inscribing_squares, haversine_distance
 from .dowellinscribing import circle_inscribing_api
 import json
 import time
@@ -231,13 +231,19 @@ class check_distance(APIView):
                 unit = serializer.validated_data['unit']
                
                 reference_location = [reference_point[0], reference_point[1]]
+                circumference_points = points_on_circle(reference_point[0], reference_point[1], radius, num_points=360)
                
                 results = []
                 for location in locations:
-                    current_location = [location[0], location[1]]
-                    distance = geodesic(reference_location, current_location).meters
-                    if unit == "kilometers":
-                        distance = distance/1000
+                    current_location = [(location[0], location[1])]
+                    common_points = set(current_location).intersection(circumference_points)
+                    
+                    if len(common_points) !=0:
+                        locations_on_circumference = common_points
+                    else:
+                        locations_on_circumference = f"no location is excatly at {radius} {unit} distance"
+                    
+                    distance = haversine_distance(reference_location[0], reference_location[1], location[0], location[1], unit)
                         
                     within_distance = distance <= radius
                     results.append({
@@ -248,9 +254,11 @@ class check_distance(APIView):
 
                 return Response({"success":"true",
                                  "message":"Location verification successful",
+                                 
                                  "results":{
                                             "unit_of_measurement":unit,
                                             "reference_point":reference_point,
+                                            "locations_on_circumference":locations_on_circumference,
                                             "distance_data":results},
                                 "event_id":get_event_id().get("event_id",{})
                                 }, status=status.HTTP_200_OK)
